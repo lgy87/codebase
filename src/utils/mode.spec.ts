@@ -1,4 +1,4 @@
-import { factory, Mode, modes } from "./index"
+import { factory, Mode, modes } from "./mode"
 
 describe("mode", () => {
   describe("production", () => {
