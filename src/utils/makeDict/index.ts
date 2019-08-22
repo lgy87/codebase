@@ -1,4 +1,4 @@
-import ra from "ramda-adjunct"
+import * as ra from "ramda-adjunct"
 
 /*
 const keys = ["FOO", "BAR", "BAZ", "QUUX", "MOS"]
@@ -20,5 +20,5 @@ export default function makeDict(keys: Array<any>) {
     throw new Error("makeDict 只支持数组参数!")
   }
 
-  return ra.renameKeys(keys, keys)
+  return ra.renameKeys(keys as any, keys)
 }
