@@ -3,19 +3,9 @@
  * 2018/11/21
  * lgy87@foxmail.com
  */
+const config = require("./bit.jest.config")
+
 module.exports = {
-  bail: true,
-  verbose: true,
+  ...config,
   roots: ["<rootDir>/src"],
-  moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
-  moduleDirectories: ["<rootDir>/src", "node_modules"],
-  transform: {
-    "^.+\\.tsx?$": "ts-jest",
-    "^.+\\.jsx?$": "babel-jest",
-  },
-  testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.(j|t)sx?$",
-  setupFiles: ["<rootDir>/tests/shim.ts", "<rootDir>/tests/setupTests.ts"],
-  moduleNameMapper: {
-    "~(.*)$": "<rootDir>/src/$1",
-  },
 }

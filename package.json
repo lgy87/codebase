@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "ramda": "^0.26.1",
+    "ramda-adjunct": "^2.19.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0"
   },
@@ -11,17 +12,14 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest --passWithNoTests",
+    "tw": "jest --watch --passWithNoTests",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
@@ -31,7 +29,7 @@
   "bit": {
     "env": {
       "compiler": "bit.envs/compilers/react-typescript@3.0.6",
-      "tester": "bit.envs/testers/jest@22.4.3"
+      "tester": "lgy87.envs/testers/jest@24.0.4"
     },
     "componentsDefaultDirectory": "components/{name}",
     "packageManager": "yarn",
