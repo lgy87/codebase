@@ -69,7 +69,7 @@ describe("device", () => {
       device = factory(ua)
     })
 
-    it("能够在iPhone中正确检测状态", () => {
+    it("能够在iPad中正确检测状态", () => {
       expect(device.isWeb).toBeFalsy()
       expect(device.isAndroid).toBeFalsy()
       expect(device.isIPhone).toBeFalsy()

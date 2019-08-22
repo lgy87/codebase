@@ -1,4 +1,4 @@
-import r from "ramda" 
+import * as r from "ramda" 
 import * as ra from "ramda-adjunct"
 
 export enum devices {
