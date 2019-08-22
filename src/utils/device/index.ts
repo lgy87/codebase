@@ -1,23 +1,42 @@
-import * as r from "ramda"
+import r from "ramda" 
 import * as ra from "ramda-adjunct"
 
-import makeDict from "@/utils/makeDict"
-
-const ua = window.navigator.userAgent
-
-const devices = ["android", "iPhone"]
-
-const result = r.pipe(
-  makeDict,
-  r.mapObjIndexed(device => new RegExp(device, "gi").test(ua)),
-)(devices)
-
-const web = r.pipe(
-  r.values,
-  r.all(ra.isFalsy),
-)(result)
-
-export default {
-  ...result,
-  web,
+export enum devices {
+  web = "web",
+  android = "android",
+  iPhone = "iPhone",
+  iPad = "iPad",
 }
+
+export type Device = {
+  isWeb: boolean
+  isAndroid: boolean
+  isIPhone: boolean
+  isIPad: boolean
+  isNotWeb: boolean
+  isNotAndroid: boolean
+  isNotIPhone: boolean
+  isNotIPad: boolean
+}
+
+export function factory(ua: string) : Device {
+  const test = (device: string) => new RegExp(device, "gi").test(ua)
+
+  const isAndroid = test(devices.android)
+  const isIPhone = test(devices.iPhone)
+  const isIPad = test(devices.iPad)
+  const isWeb = r.all(ra.isFalse, [isAndroid, isIPhone, isIPad])
+
+  return {
+    isWeb,
+    isAndroid,
+    isIPhone,
+    isIPad,
+    isNotWeb: r.not(isWeb),
+    isNotAndroid: r.not(isAndroid),
+    isNotIPhone: r.not(isIPhone),
+    isNotIPad: r.not(isIPad),
+  }
+}
+
+export default factory(window.navigator.userAgent)
