@@ -8,7 +8,7 @@ export enum devices {
   iPad = "iPad",
 }
 
-export type Device = {
+export type Device = Readonly<{
   isWeb: boolean
   isAndroid: boolean
   isIPhone: boolean
@@ -17,7 +17,7 @@ export type Device = {
   isNotAndroid: boolean
   isNotIPhone: boolean
   isNotIPad: boolean
-}
+}>
 
 export function factory(ua: string) : Device {
   const test = (device: string) => new RegExp(device, "gi").test(ua)

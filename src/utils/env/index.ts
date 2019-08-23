@@ -9,7 +9,7 @@ export const re = {
   online : / /i  // just a placeholder
 }
 
-export type Env = {
+export type Env = Readonly<{
   isDev: boolean
   isPreTest: boolean
   isTest: boolean
@@ -20,7 +20,7 @@ export type Env = {
   isNotTest: boolean
   isNotInte: boolean
   isNotOnline: boolean
-}
+}>
 
 export function factory(url: string) : Env {
   const test = (re: RegExp) => re.test(url)

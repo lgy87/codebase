@@ -6,7 +6,7 @@ export enum modes {
   test = "test",
 }
 
-export type Mode = {
+export type Mode = Readonly<{
   current: string
   isProd: boolean
   isDev: boolean
@@ -14,7 +14,7 @@ export type Mode = {
   isNotProd: boolean
   isNotDev: boolean
   isNotTest: boolean
-}
+}>
 
 export function factory(process: NodeJS.Process): Mode {
   const current = r.pathOr(modes.prod, ["env", "NODE_ENV"], process)
