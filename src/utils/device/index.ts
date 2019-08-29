@@ -20,7 +20,7 @@ export type Device = Readonly<{
 }>
 
 export function factory(ua: string) : Device {
-  const test = (device: string) => new RegExp(device, "gi").test(ua)
+  const test = (device: string) => new RegExp(device, "i").test(ua)
 
   const isAndroid = test(devices.android)
   const isIPhone = test(devices.iPhone)
