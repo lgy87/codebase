@@ -35,6 +35,48 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "lgy87.utils/loader@1.0.1": {
+        "files": [
+            {
+                "relativePath": "src/utils/loader/image.ts",
+                "test": false,
+                "name": "image.ts"
+            },
+            {
+                "relativePath": "src/utils/loader/impl.ts",
+                "test": false,
+                "name": "impl.ts"
+            },
+            {
+                "relativePath": "src/utils/loader/index.ts",
+                "test": false,
+                "name": "index.ts"
+            },
+            {
+                "relativePath": "src/utils/loader/javascript.ts",
+                "test": false,
+                "name": "javascript.ts"
+            },
+            {
+                "relativePath": "src/utils/loader/loadX.ts",
+                "test": false,
+                "name": "loadX.ts"
+            },
+            {
+                "relativePath": "src/utils/loader/spec.ts",
+                "test": true,
+                "name": "spec.ts"
+            },
+            {
+                "relativePath": "src/utils/loader/stylesheet.ts",
+                "test": false,
+                "name": "stylesheet.ts"
+            }
+        ],
+        "mainFile": "src/utils/loader/index.ts",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "lgy87.utils/make-dict@1.0.1": {
         "files": [
             {
