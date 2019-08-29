@@ -26,12 +26,12 @@ describe("loader", () => {
       expect(img.getAttribute("src")).toBe(url)
     })
 
-    it.skip("TODO: Image#onerror and Image#onload doesn't trigger in JSDOM.", async () => {
-      const done = jest.fn()
+    // it.skip("TODO: Image#onerror and Image#onload doesn't trigger in JSDOM.", async () => {
+    //   const done = jest.fn()
 
-      await loadImage({ src: url, done })
-      expect(done).toHaveBeenCalledTimes(1)
-    })
+    //   await loadImage({ src: url, done })
+    //   expect(done).toHaveBeenCalledTimes(1)
+    // })
   })
 
   describe("javascript", () => {
@@ -52,12 +52,12 @@ describe("loader", () => {
       expect(script.tagName).toBe("SCRIPT")
       expect(script.getAttribute("src")).toBe(url)
     })
-    it.skip("（TODO: script#onload & script#onerror 不触发回调函数）可以正常调用回调函数", async () => {
-      const done = jest.fn()
+    // it.skip("（TODO: script#onload & script#onerror 不触发回调函数）可以正常调用回调函数", async () => {
+    //   const done = jest.fn()
 
-      await loadJs({ src: url, done })
-      expect(done).toHaveBeenCalledTimes(1)
-    })
+    //   await loadJs({ src: url, done })
+    //   expect(done).toHaveBeenCalledTimes(1)
+    // })
   })
 
   describe("css", () => {
@@ -78,11 +78,11 @@ describe("loader", () => {
       expect(link.tagName).toBe("LINK")
       expect(link.getAttribute("href")).toBe(url)
     })
-    it.skip("（TODO: link#onload & link#onerror 不触发回调函数）可以正常调用回调函数", async () => {
-      const done = jest.fn()
+    // it.skip("（TODO: link#onload & link#onerror 不触发回调函数）可以正常调用回调函数", async () => {
+    //   const done = jest.fn()
 
-      await loadCss({ src: url, done })
-      expect(done).toHaveBeenCalledTimes(1)
-    })
+    //   await loadCss({ src: url, done })
+    //   expect(done).toHaveBeenCalledTimes(1)
+    // })
   })
 })
