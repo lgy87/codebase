@@ -46,7 +46,8 @@
     "overrides": {
       "ui/*": {
         "dependencies": {
-          "ramda": "^0.26.1"
+          "ramda": "^0.26.1",
+          "ramda-adjunct": "^2.19.0"
         }
       }
     }
@@ -80,7 +81,7 @@
     "react-scripts": "3.1.1",
     "sinon": "^7.4.1",
     "ts-jest": "^24.0.2",
-    "typescript": "3.5.3",
+    "typescript": "3.6.2",
     "webpack-bundle-analyzer": "^3.4.1"
   }
 }
