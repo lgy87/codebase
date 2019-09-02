@@ -1,4 +1,4 @@
-import r from "ramda"
+import * as r from "ramda"
 
 export enum modes {
   prod = "production",
