@@ -1,7 +1,12 @@
 import * as r from "ramda"
 
 import dataSource, { jsonp } from "~/utils/dataSource"
-import { loginStateUrl, gzqLoginUrl, gzqLogoutUrl, errorCodes } from "./config"
+import {
+  loginStateUrl,
+  gzqLoginUrl,
+  gzqLogoutUrl,
+  gzqRegisterUrl,
+} from "./config"
 import userOrgInfoStorage from "~/utils/userOrgInfoStorage"
 
 import normalizeUserOrgInfo from "./normalizeUserOrgInfo"
@@ -24,7 +29,8 @@ async function login(authInfo: AuthInfo) {
 
   try {
     const options = buildLoginRequestConfig(authInfo, ciaState)
-    await doLogin(options)
+    console.log(options)
+    ciaState.code ? await registerToGZQ(options) : await doLogin(options)
 
     const orgListInfo = await getOrgList()
     const normalizedUserOrgInfo = normalizeUserOrgInfo(orgListInfo)
@@ -32,15 +38,21 @@ async function login(authInfo: AuthInfo) {
     await userOrgInfoStorage.setItem(normalizedUserOrgInfo)
     return normalizedUserOrgInfo
   } catch (e) {
-    if (isCaptcha(e)) {
-      return Promise.reject(e.data.result)
+    e.message = e.msg
+
+    if (hasUUID(e)) {
+      return Promise.reject({ ...e, uuid: getUUID(e) })
     }
+
     return Promise.reject(e)
   }
 }
 
-function isCaptcha(resp: LoginResponse): boolean {
-  return String(resp.code) === errorCodes.LOGIN_GZQ_CAPTCHA
+function hasUUID(resp: LoginResponse): boolean {
+  return r.pathOr(false, ["data", "result", "uuid"], resp)
+}
+function getUUID(resp: LoginResponse): string {
+  return r.path(["data", "result", "uuid"], resp) as string
 }
 
 async function getCiaLoginState(): Promise<LoginStateResponse> {
@@ -85,15 +97,34 @@ async function doLogin(options: LoginRequestOption): Promise<LoginPayload> {
     .catch(e => Promise.reject(e))
 }
 
+async function registerToGZQ(options: any): Promise<any> {
+  return dataSource
+    .get<LoginRequestOption, LoginPayload>(gzqRegisterUrl, { params: options })
+    .catch(e => Promise.reject(e))
+}
+
 function buildLoginRequestConfig(
   authInfo: AuthInfo,
-  ciaState: LoginStateResponse,
-) {
+  { code, auth_code: authCode }: LoginStateResponse,
+): LoginRequestOption {
+  if (code) {
+    return {
+      // @ts-ignore
+      deviceId: "WEB",
+      deviceType: "WEB",
+      code,
+    }
+  }
+
   return {
     clientVersion: "2.0",
     deviceType: "WEB",
+    code,
+    authCode,
     ...authInfo,
-    ...ciaState,
-    authCode: ciaState.auth_code,
   }
 }
+
+// deviceType: WEB
+// deviceId: WEB
+// code: 9db759b6b4434bfbac8374f6b1f9d4c3

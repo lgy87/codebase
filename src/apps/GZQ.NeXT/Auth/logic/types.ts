@@ -7,13 +7,13 @@ export type LoginStateResponse = {
 export type AuthInfo = {
   account: string
   password: string
+  uuid?: string
+  imageNo?: string
 }
-export type LoginRequestOption = {
-  account: string
-  password: string
+export interface LoginRequestOption extends AuthInfo {
   clientVersion: string
   deviceType: string
-  auth_code?: string
+  authCode?: string
   code?: string
 }
 export type OrgListRequestOption = {

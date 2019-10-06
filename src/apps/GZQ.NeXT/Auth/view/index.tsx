@@ -11,7 +11,14 @@ const Auth = (props: any) => (
     <ControlGroup vertical>
       <Account value={props.account} onChange={props.onAccountChange} />
       <Password value={props.password} onChange={props.onPasswordChange} />
-      <Captcha image={props.captchaImage} />
+      {props.captcha && (
+        <Captcha
+          image={props.captchaImage}
+          value={props.captchaCode}
+          onChange={props.onCaptchaCodeChange}
+          refreshImage={props.onRefreshCaptchaImage}
+        />
+      )}
       <LoginButton onClick={props.onLogin} logining={props.whileRequesting} />
     </ControlGroup>
   </FormGroup>
