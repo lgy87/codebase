@@ -14,5 +14,8 @@ const proxyConfig = proxy({
 })
 
 module.exports = function(app) {
-  app.use("/web", proxyConfig).use("/account", proxyConfig)
+  app
+    .use("/web", proxyConfig)
+    .use("/account", proxyConfig)
+    .use("/quan", proxyConfig)
 }
