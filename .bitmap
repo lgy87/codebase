@@ -99,7 +99,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "lgy87.utils/mode@1.0.0": {
+    "lgy87.utils/mode@1.0.1": {
         "files": [
             {
                 "relativePath": "src/utils/mode/index.ts",
@@ -116,5 +116,22 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "version": "14.2.5"
+    "lgy87.utils/not-equals@0.0.1": {
+        "files": [
+            {
+                "relativePath": "src/utils/notEquals/index.ts",
+                "test": false,
+                "name": "index.ts"
+            },
+            {
+                "relativePath": "src/utils/notEquals/spec.ts",
+                "test": true,
+                "name": "spec.ts"
+            }
+        ],
+        "mainFile": "src/utils/notEquals/index.ts",
+        "origin": "AUTHORED",
+        "exported": true
+    },
+    "version": "14.4.0"
 }

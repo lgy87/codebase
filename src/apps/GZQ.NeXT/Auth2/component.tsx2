@@ -1,0 +1,39 @@
+import React, { MouseEvent, FormEvent, SFC } from "react"
+import { Button, FormGroup, InputGroup, ControlGroup } from "@blueprintjs/core"
+
+const Auth: SFC<Readonly<Props>> = props => (
+  <FormGroup>
+    <ControlGroup vertical>
+      <InputGroup
+        leftIcon="user"
+        placeholder="用户"
+        value={props.user}
+        data-field="user"
+        onChange={props.onChange}
+      />
+
+      <InputGroup
+        leftIcon="lock"
+        placeholder="密码"
+        value={props.password}
+        type="password"
+        data-field="password"
+        onChange={props.onChange}
+      />
+
+      <Button onClick={props.onLogin}>登录</Button>
+    </ControlGroup>
+  </FormGroup>
+)
+
+export default Auth
+
+export interface Props {
+  user: string
+  password: string
+  onLogin: LoginFn
+  onChange: ChangeFn
+}
+
+export type LoginFn = (event: MouseEvent<HTMLElement>) => void
+export type ChangeFn = (event: FormEvent<HTMLInputElement>) => void

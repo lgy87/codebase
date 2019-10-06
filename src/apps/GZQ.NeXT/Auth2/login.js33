@@ -1,0 +1,182 @@
+// import * as r from "ramda"
+// import actions from "./actions"
+// import { ciaUrl, ciaFirstOnLogin, loginUrl, captchaUrl } from "configs/network"
+// import get from "lodash/fp/get"
+// import request from "utils/request"
+import dataSource, { jsonp } from "utils/dataSource"
+// import put from "utils/put"
+// import keyBy from "lodash/fp/keyBy"
+
+// const keyById = keyBy("id")
+
+// const protocol = "https"
+// const { hostname, port, origin } = location
+// const cspProxyUrl = "/account/web/cspInterCall"
+const loginStateUrl =
+  "http://cia.chanapp.chanjet.com/internal_api/authorizeByJsonp"
+const ciaLoginUrl = "https://passport.chanjet.com/loginV2/webLogin"
+const gzqLoginUrl = "/account/web/user/login"
+// const captchaUrl = "/account/web/user/getKaptchaImage?uuid="
+// const timeout = 20 * 1000
+// const urlEncrpty = !isTestEnv()
+// const ciaFirstOnLogin = !isTestEnv()
+
+// function isDevEnv() {
+//   return true
+// }
+export default async function login(authInfo: AuthInfo) {
+  try {
+    const { auth_code } = await getLoginState()
+    if (auth_code) {
+      await loginToCia(auth_code, authInfo)
+    }
+
+    const auth = await getLoginState("b0ad0c5c-61ae-4277-8dd4-27a3a66d86ea")
+    console.log(auth)
+    if (auth.code) {
+      const info = loginToGzq(auth.code)
+      console.log(info)
+    }
+
+    //   isLoggedIntoGZQ(auth, authInfo)
+
+    //   const data = {
+    //     ...authInfo,
+    //     ...config,
+    //   }
+
+    //   return dataSource
+    //     .post(loginUrl, data)
+    //     .then(x => console.log(x))
+    //     .catch(e => console.log("err: ", e))
+  } catch (e) {
+    console.error("Login failed!", e)
+  }
+}
+ 
+
+
+
+async function getLoginState(
+  accessToken?: string,
+): Promise<LoginStateResponse> {
+  return jsonp.get(loginStateUrl, {
+    params: {
+      _: Date.now(),
+      client_id: accessToken || "4cb832be-e503-4075-9903-6aa8d9e29104",
+      jsonp: true,
+    },
+  })
+}
+async function loginToCia(
+  authCode: string,
+  authInfo: AuthInfo,
+): Promise<CiaResponse> {
+  return jsonp.get(ciaLoginUrl, {
+    params: {
+      _: Date.now(),
+      auth_code: authCode,
+      auth_username: authInfo.account,
+      jsonp: 1,
+      password: authInfo.password,
+    },
+  })
+}
+async function loginToGzq(code: string) {
+  return dataSource
+    .post(gzqLoginUrl, {
+      params: {
+        _: Date.now(),
+        code,
+      },
+    })
+    .catch(x => console.log("gzq gzq"))
+    .catch(e => console.log("login to gzq failed: ", e))
+}
+// function* authorize({ payload: authInfo }) {
+//   try {
+//     yield put(actions.loginRequest)
+
+//     const code = yield call(cia)
+//     const result = yield call(loginWith(authInfo), code)
+//     yield put(actions.loginSuccessfully)
+
+//     const { user } = result
+//     yield put(actions.userInfo, user)
+
+//     const keyedOrgs = keyById(result.orgs)
+//     yield put(actions.orgsInfo, keyedOrgs)
+
+//     yield put(actions.lt, result.lt)
+//     yield put(actions.defaultOrgId, result.defaultOrgId)
+//   } catch (e) {
+//     const uuid = get("result.uuid")(e)
+//     yield uuid
+//       ? put(actions.captcha, { uuid, randomNum: Math.random() })
+//       : put(actions.loginFailed, e)
+//   }
+// }
+
+// export default function* loginFlow() {
+//   yield takeEvery(String(actions.login), authorize)
+// }
+
+// function cia2() {
+//   if (!ciaFirstOnLogin) {
+//     return Promise.resolve({})
+//   }
+
+//   return dataSource.cia({
+//     type: "get",
+//     dataType: "jsonp",
+//     data: {
+//       client_id: "teamplusapp",
+//       state: "gzq",
+//     },
+//   })
+// }
+
+// function loginWith(authInfo: AuthInfo) {
+//   const data = {
+//     deviceType: "WEB",
+//     clientVersion: "2.0",
+//     ...authInfo,
+//   }
+
+//   return function login(resp) {
+//     if (resp.code || resp.auth_code) {
+//       ;(data.code = resp.code), (data.authCode = resp.auth_code)
+//     }
+
+//     return dataSource.login({
+//       method: "post",
+//       data,
+//     })
+//   }
+// }
+// export const isLoggedIntoGZQ: BoolFn = () => {
+//   const GZQ_COOKIE = "gongzuoquan.info="
+
+//   return r.pipe(
+//     r.split(";"),
+//     r.map(r.trim),
+//     r.any(r.startsWith(GZQ_COOKIE)),
+//   )(document.cookie)
+// }
+
+// type CiaRequestConfig = {
+//   auth_username: string
+//   password: string
+//   clientVersion: string
+//   deviceType: string
+//   auth_code: string
+//   jsonp: number
+//   _: number
+// }
+// type GzqRequestConfig = {
+//   account: string
+//   password: string
+//   _: number
+// }
+// type BoolFn = () => boolean
+ 

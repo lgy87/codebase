@@ -1,0 +1,15 @@
+import getAvatar from "./index"
+import { AVATAR_SIZE } from "./config"
+
+describe("getAvatar", () => {
+  it("能够返回正确的 avatar 图片地址", () => {
+    const imgSrc = "http://image.png"
+
+    expect(getAvatar(imgSrc)).toBe(`${imgSrc}${AVATAR_SIZE}.png`)
+  })
+  it("不支持的图片类型，返回原图片地址", () => {
+    const imgSrc = "http://image.bmp"
+
+    expect(getAvatar(imgSrc)).toBe(imgSrc)
+  })
+})

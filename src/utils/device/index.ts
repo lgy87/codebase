@@ -1,4 +1,4 @@
-import * as r from "ramda" 
+import * as r from "ramda"
 import * as ra from "ramda-adjunct"
 
 export enum devices {
@@ -19,7 +19,7 @@ export type Device = Readonly<{
   isNotIPad: boolean
 }>
 
-export function factory(ua: string) : Device {
+export function factory(ua: string): Device {
   const test = (device: string) => new RegExp(device, "i").test(ua)
 
   const isAndroid = test(devices.android)

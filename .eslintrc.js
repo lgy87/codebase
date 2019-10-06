@@ -1,6 +1,3 @@
-const package = require("./package.json")
-const reactVersion = package.dependencies.react
-
 module.exports = {
   parser: "babel-eslint",
   extends: ["eslint:recommended", "plugin:react/recommended"],
@@ -16,23 +13,17 @@ module.exports = {
     "prettier/prettier": "error",
     "no-console": "off",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/exhaustive-deps": "error",
     "no-use-before-define": "off",
     "react/prop-types": "off",
     "no-extra-semi": "off",
     "no-case-declarations": "off",
-    "no-unused-vars": "warn",
+    "no-unused-vars": "error",
   },
   settings: {
-    settings: {
-      "import/resolver": {
-        webpack: {
-          config: "webpack/config.js",
-        },
-      },
-    },
     react: {
-      version: reactVersion,
+      pragma: "React",
+      version: "detect",
     },
   },
 }

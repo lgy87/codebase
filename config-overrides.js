@@ -7,19 +7,23 @@ const {
   override,
   addBabelPlugin,
   addWebpackAlias,
+  setWebpackTarget,
   addWebpackPlugin,
   addBundleVisualizer,
 } = require("customize-cra")
 const LodashModuleReplacementPlugin = require("lodash-webpack-plugin")
-
+const r = require("ramda")
 const { SRC } = require("./webpack/paths")
 
 module.exports = override(
   addBabelPlugin("lodash"),
   addWebpackAlias({
     "~": SRC,
+    "@": "~/apps",
+    "@styles": "~/styles",
     "react-dom": "@hot-loader/react-dom",
   }),
   addWebpackPlugin(new LodashModuleReplacementPlugin()),
   addBundleVisualizer({}, true),
+  // setWebpackTarget("electron-renderer"),
 )

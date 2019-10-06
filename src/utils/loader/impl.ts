@@ -1,6 +1,6 @@
 import * as ra from "ramda-adjunct"
+import { AnyFn } from "~/types"
 
-type AnyFn = (arg?: any) => any
 export type ResourceType = "image" | "css" | "js"
 type NodeNameType = "img" | "link" | "script"
 type AttrNameType = "src" | "href"
