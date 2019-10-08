@@ -2,13 +2,13 @@ import * as r from "ramda"
 import * as ra from "ramda-adjunct"
 import React, { useState, useCallback } from "react"
 import md5 from "js-md5"
+import { useHistory, useRouteMatch } from "react-router-dom"
 
 import toaster from "~/utils/toaster"
 import auth from "./logic"
 import { captchaUrl } from "./logic/config"
 import { AuthInfo, UserOrgs } from "./logic/types"
 import useFieldState from "~/hooks/useFieldState"
-import { useHistory } from "react-router-dom"
 import View from "./view"
 
 export default function Container(props: any) {
@@ -20,6 +20,7 @@ export default function Container(props: any) {
   const [random, setRandom_] = useState(Math.random)
 
   const history = useHistory()
+  console.log("i love u: ", useRouteMatch())
 
   const setRandom = useCallback(() => setRandom_(Math.random), [])
 
@@ -55,7 +56,7 @@ export default function Container(props: any) {
   }
 
   function goHome() {
-    history.push("/", { replace: true })
+    history.push("/GZQ.NeXT", { replace: true })
   }
 
   function handleLogin(authInfo: AuthInfo) {
@@ -74,7 +75,7 @@ export default function Container(props: any) {
         return Promise.reject(e)
       })
       .catch(toaster.warning)
-      .finally(() => setWhileRequesting(false))
+    // .finally(() => setWhileRequesting(false))
   }
 }
 

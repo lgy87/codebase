@@ -9,7 +9,7 @@ import HTML5Backend from "react-dnd-html5-backend"
 import { DndProvider } from "react-dnd"
 import { ConnectedRouter } from "connected-react-router"
 import { Provider } from "react-redux"
-import { Route } from "react-router-dom"
+import { Route, Redirect } from "react-router-dom"
 import { Spinner, Intent } from "@blueprintjs/core"
 
 import configureStore, { history } from "~/configureStore"
@@ -27,8 +27,9 @@ function Entry() {
       <ConnectedRouter history={history}>
         <DndProvider backend={HTML5Backend}>
           <Suspense fallback={loading}>
-            <Route path="/GZQ.NeXT" component={GZQ} />
-            <Route path="/pkgs" component={Pkgs} />
+            <Route sensitive path="/GZQ.NeXT" component={GZQ} />
+            <Route sensitive path="/pkgs" component={Pkgs} />
+            <Redirect to="/GZQ.NeXT" />
           </Suspense>
         </DndProvider>
       </ConnectedRouter>

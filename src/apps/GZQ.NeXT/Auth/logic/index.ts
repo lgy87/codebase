@@ -1,12 +1,7 @@
 import * as r from "ramda"
 
 import dataSource, { jsonp } from "~/utils/dataSource"
-import {
-  loginStateUrl,
-  gzqLoginUrl,
-  gzqLogoutUrl,
-  gzqRegisterUrl,
-} from "./config"
+import { loginStateUrl, gzqLoginUrl, gzqLogoutUrl } from "./config"
 import userOrgInfoStorage from "~/utils/userOrgInfoStorage"
 
 import normalizeUserOrgInfo from "./normalizeUserOrgInfo"

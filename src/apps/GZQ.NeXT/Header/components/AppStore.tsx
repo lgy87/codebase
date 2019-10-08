@@ -1,14 +1,10 @@
 import React from "react"
-import {
-  Popover,
-  Button,
-  Position,
-  PopoverInteractionKind,
-} from "@blueprintjs/core"
+import { Popover, Position, PopoverInteractionKind } from "@blueprintjs/core"
 
+import { ThemedButton } from "~/components/Button"
 import createMenu, { divider } from "./createMenu"
 
-export default function AppStore(props) {
+export default function AppStore(props: any) {
   const menu = [
     {
       text: "申请试用商务版",
@@ -35,17 +31,18 @@ export default function AppStore(props) {
       hoverOpenDelay={0}
       position={Position.BOTTOM}
     >
-      <Button
-        intent="primary"
-        icon="shopping-cart"
-        rightIcon="chevron-down"
-        text="应用中心"
-        style={style}
-      />
+      <AppStoreTrigger />
     </Popover>
   )
 }
 
-const style = {
-  color: "white",
+function AppStoreTrigger(props: any) {
+  return (
+    <ThemedButton
+      intent="primary"
+      icon="shopping-cart"
+      rightIcon="chevron-down"
+      text="应用中心"
+    />
+  )
 }

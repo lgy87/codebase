@@ -27,6 +27,7 @@ const menu = [
 ]
 
 export default function Profile(props) {
+  console.log(props)
   const history = useHistory()
 
   return (

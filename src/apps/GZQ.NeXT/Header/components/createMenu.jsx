@@ -8,11 +8,7 @@ export const divider = { type: DIVIDER }
 
 export default function createMenu(menu = [], menuItemCreator) {
   const createItem = r.defaultTo(createMenuItem, menuItemCreator)
-  return (
-    <Menu style={{ height: "200px", overflow: "auto" }}>
-      {menu.map(createItem)}
-    </Menu>
-  )
+  return <Menu style={{ overflow: "auto" }}>{menu.map(createItem)}</Menu>
 }
 
 function createMenuItem(item, index) {

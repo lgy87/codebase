@@ -1,10 +1,14 @@
 import * as r from "ramda"
 import * as ra from "ramda-adjunct"
 import React, { memo } from "react"
-import { Menu, Position } from "@blueprintjs/core"
+import { Menu, Position, Button } from "@blueprintjs/core"
 import { Select } from "@blueprintjs/select"
-import createMenu from "./createMenu"
+
 import ImageWithText from "~/components/ImageWithText"
+import { ThemedButton } from "~/components/Button"
+
+import { defaultOrgLogo } from "./config"
+import createMenu from "./createMenu"
 
 const OrgList = props => {
   const { org = {}, orgs = [] } = props
@@ -15,24 +19,27 @@ const OrgList = props => {
     r.defaultTo({}),
   )(orgs)
 
-  const me = createMenu(
-    polyfillLogoForOrgs(orgs.concat(orgs, orgs)),
-    createItem,
-  )
+  const me = createMenu(polyfillLogoForOrgs(orgs), createItem)
 
   return (
     <Select
       items={polyfillLogoForOrgs(orgs.concat(orgs, orgs))}
-      filterable={orgs.length > 8}
+      filterable={orgs.length >= 8}
       popoverProps={popoverProps}
       //scrollToActiveItem
       //itemRenderer={createItem}
       itemListRenderer={() => me}
     >
-      <ImageWithText
+      {/* <ImageWithText
         src={currentOrg.logo}
         text={currentOrg.name}
         textStyle={textStyle}
+      /> */}
+      <ThemedButton
+        intent="primary"
+        icon="briefcase"
+        rightIcon="chevron-down"
+        text={"当前企业：" + currentOrg.name}
       />
     </Select>
   )
@@ -46,7 +53,6 @@ const textStyle = {
 const popoverProps = {
   minimal: true,
   position: Position.TOP,
-  height: "200px",
 }
 
 function createItem(item, index) {
@@ -57,9 +63,6 @@ function createItem(item, index) {
     />
   )
 }
-
-const defaultOrgLogo =
-  "http://gzq.static.chanjet.com/static/images/ent_logo_android.png"
 
 const logoMissing = r.pipe(
   r.prop("logo"),
