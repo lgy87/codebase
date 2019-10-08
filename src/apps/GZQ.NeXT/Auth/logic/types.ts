@@ -13,6 +13,7 @@ export type AuthInfo = {
 export interface LoginRequestOption extends AuthInfo {
   clientVersion: string
   deviceType: string
+  deviceId?: string
   authCode?: string
   code?: string
 }

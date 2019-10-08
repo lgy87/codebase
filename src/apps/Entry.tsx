@@ -4,28 +4,32 @@
  * lgy87@foxmail.com
  */
 import { hot } from "react-hot-loader/root"
-import React from "react"
+import React, { lazy, Suspense } from "react"
 import HTML5Backend from "react-dnd-html5-backend"
 import { DndProvider } from "react-dnd"
 import { ConnectedRouter } from "connected-react-router"
-
-import App from "~/apps/App"
-import configureStore, { history } from "~/configureStore"
 import { Provider } from "react-redux"
-import A from "~/components/A"
+import { Route } from "react-router-dom"
+import { Spinner, Intent } from "@blueprintjs/core"
+
+import configureStore, { history } from "~/configureStore"
+
+const loading = <Spinner intent={Intent.PRIMARY} size={100} />
+
+const GZQ = lazy(() => import("./GZQ.NeXT"))
+const Pkgs = lazy(() => import("./PkgsManagement"))
+
 const store = configureStore({})
 
 function Entry() {
-  const [x, setX] = React.useState()
-  const ok = React.useCallback(o => {
-    console.log(x, o)
-  }, [])
-
   return (
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <DndProvider backend={HTML5Backend}>
-          <App />
+          <Suspense fallback={loading}>
+            <Route path="/GZQ.NeXT" component={GZQ} />
+            <Route path="/pkgs" component={Pkgs} />
+          </Suspense>
         </DndProvider>
       </ConnectedRouter>
     </Provider>

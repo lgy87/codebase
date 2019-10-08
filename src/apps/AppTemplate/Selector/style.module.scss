@@ -1,0 +1,30 @@
+@import "@styles/common.scss";
+
+$size: 30px;
+$offset: 4px;
+
+.selector {
+  position: fixed;
+  bottom: $offset;
+  left: $offset;
+  opacity: 0.3;
+}
+
+.colorplate {
+  display: inline-flex;
+  flex-wrap: wrap;
+  padding: 4px;
+  padding-bottom: 0;
+}
+.colorItem {
+  display: inline-block;
+  text-indent: -9999em;
+  @include square($size);
+  transition: border 0.3s;
+  cursor: pointer;
+
+  &:hover,
+  &.active {
+    border: 8px solid white !important;
+  }
+}

@@ -25,12 +25,12 @@ async function login(authInfo: AuthInfo) {
   // Has logged into GZQ
   if (isLoggedIntoGZQ()) return userOrgInfoStorage.getItem()
 
-  let ciaState = await getCiaLoginState()
-
   try {
-    const options = buildLoginRequestConfig(authInfo, ciaState)
+    const ciaState = await getCiaLoginState()
+
+    const options = buildLoginRequestOption(authInfo, ciaState)
     console.log(options)
-    ciaState.code ? await registerToGZQ(options) : await doLogin(options)
+    await doLogin(options)
 
     const orgListInfo = await getOrgList()
     const normalizedUserOrgInfo = normalizeUserOrgInfo(orgListInfo)
@@ -97,34 +97,19 @@ async function doLogin(options: LoginRequestOption): Promise<LoginPayload> {
     .catch(e => Promise.reject(e))
 }
 
-async function registerToGZQ(options: any): Promise<any> {
-  return dataSource
-    .get<LoginRequestOption, LoginPayload>(gzqRegisterUrl, { params: options })
-    .catch(e => Promise.reject(e))
-}
-
-function buildLoginRequestConfig(
+function buildLoginRequestOption(
   authInfo: AuthInfo,
-  { code, auth_code: authCode }: LoginStateResponse,
+  ciaState: LoginStateResponse,
 ): LoginRequestOption {
-  if (code) {
-    return {
-      // @ts-ignore
-      deviceId: "WEB",
-      deviceType: "WEB",
-      code,
-    }
+  const base = {
+    clientVersion: "NeXT",
+    deviceType: "WEB",
   }
 
   return {
-    clientVersion: "2.0",
-    deviceType: "WEB",
-    code,
-    authCode,
+    ...base,
     ...authInfo,
+    ...ciaState,
+    authCode: ciaState.auth_code,
   }
 }
-
-// deviceType: WEB
-// deviceId: WEB
-// code: 9db759b6b4434bfbac8374f6b1f9d4c3

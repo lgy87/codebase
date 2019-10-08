@@ -4,7 +4,7 @@ import { ControlGroup } from "@blueprintjs/core"
 import Image from "~/components/Image"
 
 import createField from "./createField"
-import styles from "./style.module.scss"
+import style from "./style.module.scss"
 
 const CaptchaInput = createField({
   leftIcon: "media",
@@ -23,7 +23,7 @@ const Captcha: FC<any> = (props: any) => {
       />
       <Image
         src={props.image}
-        className={styles.captcha}
+        className={style.captcha}
         onDoubleClick={props.refreshImage}
       />
     </ControlGroup>

@@ -1,3 +1,4 @@
+import React from "react"
 import { Popover } from "@blueprintjs/core"
 
 import Content from "./Content"

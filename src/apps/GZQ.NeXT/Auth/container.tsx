@@ -12,8 +12,8 @@ import { useHistory } from "react-router-dom"
 import View from "./view"
 
 export default function Container(props: any) {
-  const [account, setAccount] = useFieldState("")
-  const [password, setPassword] = useFieldState("")
+  const [account, setAccount] = useFieldState("ligyj@chanjet.com")
+  const [password, setPassword] = useFieldState("temp123")
   const [captchaCode, setCaptchaCode, resetCaptchaCode] = useFieldState("")
   const [whileRequesting, setWhileRequesting] = useState(false)
   const [uuid, setUUID] = useState()
