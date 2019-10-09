@@ -24,7 +24,6 @@ async function login(authInfo: AuthInfo) {
     const ciaState = await getCiaLoginState()
 
     const options = buildLoginRequestOption(authInfo, ciaState)
-    console.log(options)
     await doLogin(options)
 
     const orgListInfo = await getOrgList()

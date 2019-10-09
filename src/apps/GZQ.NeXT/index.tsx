@@ -24,7 +24,7 @@ export default ({ match }: any) => {
   return (
     <Switch>
       <Route path={loginURL} component={Auth} />
-      {isLoggedIntoGZQ() || <Redirect to={loginURL} />}
+      <>{isLoggedIntoGZQ() || <Redirect to={loginURL} />}</>
       <Route exact path={match.path} component={GZQApp} />
     </Switch>
   )

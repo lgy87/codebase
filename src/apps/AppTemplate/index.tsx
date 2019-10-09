@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux"
 
 import { AppTemplateProps } from "./types"
 
-import Selector from "./Selector"
+// import Selector from "./Selector"
 import EmptyState from "./EmptyState"
 import Root from "./Root"
 
@@ -41,7 +41,7 @@ const App: FC<AppTemplateProps> = props => {
   return (
     <>
       {initialized ? <Root {...props} /> : empty}
-      <Selector />
+      {/* <Selector /> */}
     </>
   )
 }
