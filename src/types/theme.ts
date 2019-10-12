@@ -1,8 +1,6 @@
 import { Colors } from "@blueprintjs/core"
 
-type Theme = {
+export type Theme = {
   value: keyof typeof Colors
   name: string
 }
-
-export default Theme

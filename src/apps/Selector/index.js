@@ -16,6 +16,7 @@ import style from "./style.module.scss"
 const from = {
   opacity: 0.3,
 }
+
 const to = {
   opacity: 1,
   boxShadow: "0 0 20px -5px rgba(0, 0, 0, .5)",

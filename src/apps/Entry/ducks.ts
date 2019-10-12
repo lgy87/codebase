@@ -4,20 +4,6 @@ import { createActions, handleActions, handleAction } from "redux-actions"
 import { combineReducers } from "redux"
 import * as configs from "~/configs"
 
-export type Name = {
-  name: string
-}
-export type Theme = {
-  value: string
-  name: string
-}
-export type Sidebar = {
-  width: number
-  minWidth: number
-  maxWidth: number
-  left: boolean
-}
-
 const leftLens = r.lensProp("left")
 const widthLens = r.lensProp("width")
 
@@ -50,12 +36,23 @@ const sidebar = handleActions(
   configs.sidebar,
 )
 
-const name = handleAction(
-  String(setName),
-  r.pipe(
+/*
+ r.pipe(
+    r.tap(x => {
+      console.log(x)
+      return x
+    }),
     r.nthArg(1),
     r.prop("payload"),
-  ),
+ ),
+   */
+
+const name = handleAction(
+  String(setName),
+  function(x, y) {
+    console.log(x, y)
+    return x
+  },
   configs.name,
 )
 const theme = handleAction(

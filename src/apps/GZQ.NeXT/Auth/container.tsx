@@ -2,14 +2,17 @@ import * as r from "ramda"
 import * as ra from "ramda-adjunct"
 import React, { useState, useCallback } from "react"
 import md5 from "js-md5"
-import { useHistory, useRouteMatch } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 
 import toaster from "~/utils/toaster"
+import useFieldState from "~/hooks/useFieldState"
+
 import auth from "./logic"
 import { captchaUrl } from "./logic/config"
 import { AuthInfo, UserOrgs } from "./logic/types"
-import useFieldState from "~/hooks/useFieldState"
 import View from "./view"
+
+import { name } from "../config"
 
 export default function Container(props: any) {
   const [account, setAccount] = useFieldState("ligyj@chanjet.com")
@@ -20,8 +23,6 @@ export default function Container(props: any) {
   const [random, setRandom_] = useState(Math.random)
 
   const history = useHistory()
-  console.log("i love u: ", useRouteMatch())
-
   const setRandom = useCallback(() => setRandom_(Math.random), [])
 
   return (
@@ -42,6 +43,7 @@ export default function Container(props: any) {
 
   function onLogin() {
     if (whileRequesting) return
+
     if (r.any(ra.isEmptyString, [account, password])) {
       toaster.warning({ message: "用户名和密码都不允许为空！" })
       return
@@ -55,8 +57,13 @@ export default function Container(props: any) {
     })
   }
 
-  function goHome() {
-    history.push("/GZQ.NeXT", { replace: true })
+  function goHome(userOrg: UserOrgs) {
+    history.push(`/${name}/${userOrg.org.current}`, { replace: true })
+  }
+
+  function clearUUID(userOrg: UserOrgs) {
+    setUUID(undefined)
+    return userOrg
   }
 
   function handleLogin(authInfo: AuthInfo) {
@@ -66,20 +73,23 @@ export default function Container(props: any) {
 
     auth
       .login({ ...authInfo, password: encryptedPassword })
+      .then(clearUUID)
       .then(welcome)
       .then(goHome)
-      .then(() => setUUID(undefined))
       .catch((e: any) => {
         resetCaptchaCode()
+        setWhileRequesting(false)
+
         if (e.uuid) setUUID(e.uuid)
+
         return Promise.reject(e)
       })
       .catch(toaster.warning)
-    // .finally(() => setWhileRequesting(false))
   }
 }
 
 function welcome(userOrg: UserOrgs) {
   const name = r.pathOr("", ["user", "name"], userOrg)
   toaster.success({ message: `登录成功，欢迎 ${name}!` })
+  return userOrg
 }

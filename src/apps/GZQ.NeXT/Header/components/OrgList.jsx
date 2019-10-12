@@ -1,7 +1,12 @@
 import * as r from "ramda"
 import * as ra from "ramda-adjunct"
 import React, { memo } from "react"
-import { Menu, Position, Button } from "@blueprintjs/core"
+import {
+  Menu,
+  Position,
+  Button,
+  PopoverInteractionKind,
+} from "@blueprintjs/core"
 import { Select } from "@blueprintjs/select"
 
 import ImageWithText from "~/components/ImageWithText"
@@ -53,6 +58,8 @@ const textStyle = {
 const popoverProps = {
   minimal: true,
   position: Position.TOP,
+  position: Position.BOTTOM_LEFT,
+  interactionKind: PopoverInteractionKind.HOVER,
 }
 
 function createItem(item, index) {

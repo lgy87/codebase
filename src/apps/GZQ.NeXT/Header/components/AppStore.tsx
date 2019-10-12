@@ -29,7 +29,7 @@ export default function AppStore(props: any) {
       interactionKind={PopoverInteractionKind.HOVER}
       hoverCloseDelay={100}
       hoverOpenDelay={0}
-      position={Position.BOTTOM}
+      position={Position.BOTTOM_RIGHT}
     >
       <AppStoreTrigger />
     </Popover>

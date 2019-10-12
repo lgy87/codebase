@@ -2,13 +2,15 @@ import React from "react"
 import { Menu } from "@blueprintjs/core"
 import * as r from "ramda"
 
+import style from "./style.module.scss"
+
 const DIVIDER = Symbol("DIVIDER")
 const isDivider = r.propEq("type", DIVIDER)
 export const divider = { type: DIVIDER }
 
 export default function createMenu(menu = [], menuItemCreator) {
   const createItem = r.defaultTo(createMenuItem, menuItemCreator)
-  return <Menu style={{ overflow: "auto" }}>{menu.map(createItem)}</Menu>
+  return <Menu style={style.menu}>{menu.map(createItem)}</Menu>
 }
 
 function createMenuItem(item, index) {

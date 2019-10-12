@@ -12,10 +12,9 @@ import userOrgInfoStorage from "~/utils/userOrgInfoStorage"
 
 import { isLoggedIntoGZQ } from "./Auth/logic"
 
-import AppTemplate from "../AppTemplate"
+import AppTemplate from "@/AppTemplate"
 import Header from "./Header"
 import Auth from "./Auth"
-
 import { UserOrgs } from "./Auth/logic/types"
 
 export default ({ match }: any) => {
@@ -24,15 +23,18 @@ export default ({ match }: any) => {
   return (
     <Switch>
       <Route path={loginURL} component={Auth} />
-      <>{isLoggedIntoGZQ() || <Redirect to={loginURL} />}</>
-      <Route exact path={match.path} component={GZQApp} />
+      {isLoggedIntoGZQ() ? (
+        <Route component={GZQApp} />
+      ) : (
+        <Redirect to={loginURL} />
+      )}
     </Switch>
   )
 }
 
 function GZQApp(props: any) {
   const mounted = usePromise()
-  const [userOrg, setUserOrg] = useState<UserOrgs>({} as UserOrgs)
+  const [userOrg, setUserOrg] = useState({} as UserOrgs)
 
   useEffect(() => {
     ;(async () => {

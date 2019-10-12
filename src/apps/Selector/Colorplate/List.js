@@ -4,16 +4,16 @@ import * as ra from "ramda-adjunct"
 import cx from "classnames"
 import { Colors } from "@blueprintjs/core"
 import _ from "lodash"
-
 import { useDispatch } from "react-redux"
+
 import useTheme from "~/hooks/useTheme"
 import useStorage from "~/hooks/useStorage"
+import { setTheme } from "@/Entry/ducks"
+import { THEME } from "~/types"
 
 import config from "./config"
 import Item from "./Item"
 
-import { setTheme } from "~/apps/App/ducks"
-import { THEME } from "~/apps/App/config"
 import style from "../style.module.scss"
 
 const colors = r.pipe(

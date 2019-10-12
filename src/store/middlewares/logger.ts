@@ -1,7 +1,7 @@
 import { createLogger } from "redux-logger"
 
 export default createLogger({
-  collapsed: false,
+  collapsed: true,
   diff: true,
   duration: true,
   timestamp: true,

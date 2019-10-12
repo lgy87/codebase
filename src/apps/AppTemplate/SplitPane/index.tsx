@@ -5,12 +5,11 @@ import _ from "lodash"
 
 import { useDispatch, useSelector } from "react-redux"
 import useStorage from "~/hooks/useStorage"
-
-import { setSidebarWidth } from "../ducks"
-import { SIDEBAR } from "../config"
-import style from "../style.module.scss"
-
 import { Sidebar } from "~/types"
+
+import { setSidebarWidth } from "../../Entry/ducks"
+import { SIDEBAR } from "../../Entry/useConfigs"
+import style from "../style.module.scss"
 
 type SizeChangeHandler = (width: number) => void
 

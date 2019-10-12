@@ -1,6 +1,6 @@
 import { combineReducers } from "redux"
 
-import configs from "~/apps/App/ducks"
+import configs from "@/Entry/ducks"
 
 export default combineReducers({
   configs,

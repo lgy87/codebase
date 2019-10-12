@@ -6,12 +6,16 @@
 import React, { memo, FC } from "react"
 
 import { Flex, Box } from "reflexbox"
-import logo from "@/App/Header/logo.png"
+import logo from "./logo.png"
 import style from "./style.module.scss"
 
 const EmptyState: FC<{}> = () => {
   return (
-    <Flex className="height100" justifyContent="center" alignItems="center">
+    <Flex
+      justifyContent="center"
+      alignItems="center"
+      className={style.emptyState}
+    >
       <Box>
         <img src={logo} className={style.placeholder} />
       </Box>

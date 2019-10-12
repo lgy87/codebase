@@ -1,3 +1,4 @@
 export * from "./common"
-export * from "./sidebar"
+export * from "./name"
 export * from "./theme"
+export * from "./sidebar"

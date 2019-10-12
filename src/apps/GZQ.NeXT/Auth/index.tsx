@@ -1,12 +1,18 @@
 import React from "react"
-import Container from "./container"
 import { Flex, Box } from "reflexbox"
+import { Redirect } from "react-router-dom"
+
+import { isLoggedIntoGZQ } from "./logic"
+import Container from "./container"
+
+import { name } from "../config"
 
 export default function Auth() {
   return (
     <Flex p={2} alignItems="center" justifyContent="center" style={style}>
       <Box width={width}>
         <Container />
+        {isLoggedIntoGZQ() && <Redirect to={`/${name}`} />}
       </Box>
     </Flex>
   )

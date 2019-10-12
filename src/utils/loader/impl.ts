@@ -1,5 +1,5 @@
 import * as ra from "ramda-adjunct"
-import { AnyFn } from "~/types"
+import { AnyFn } from "~/types/common"
 
 export type ResourceType = "image" | "css" | "js"
 type NodeNameType = "img" | "link" | "script"

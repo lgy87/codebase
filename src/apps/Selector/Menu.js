@@ -7,8 +7,8 @@ import { useHistory } from "react-router-dom"
 import useStorage from "~/hooks/useStorage"
 import { apps } from "~/configs"
 
-import { setName } from "../ducks"
-import { NAME } from "../config"
+import { setName } from "../Entry/ducks"
+import { NAME } from "../Entry/useConfigs"
 
 function Menu() {
   const dispatch = useDispatch()
@@ -23,7 +23,7 @@ function Menu() {
 
       dispatch(setName(newName))
       presistName(newName)
-      history.replace(app.path)
+      history.replace(`/${app.path}`)
     },
     [dispatch, name, presistName],
   )

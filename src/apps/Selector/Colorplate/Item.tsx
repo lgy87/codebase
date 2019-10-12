@@ -1,7 +1,7 @@
 import React, { memo, FC } from "react"
 import cx from "classnames"
 
-import { Theme } from "@/App/ducks"
+import { Theme } from "~/types"
 import style from "../style.module.scss"
 
 export type Props = {
