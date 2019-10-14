@@ -10,9 +10,9 @@ export const THEME = "THEME"
 export const SIDEBAR = "SIDEBAR"
 
 export default function useConfig() {
-  const [name, setName] = useState("" as Name)
-  const [theme, setTheme] = useState({} as Theme)
-  const [sidebar, setSidebar] = useState({} as Sidebar)
+  const [name, setName] = useState<Name>("")
+  const [theme, setTheme] = useState(defaultTheme)
+  const [sidebar, setSidebar] = useState(defaultSidebar)
   const [initialized, setInitialized] = useToggle(false)
 
   useEffect(() => {
@@ -25,8 +25,8 @@ export default function useConfig() {
         ])
 
         setName(name)
-        setTheme(theme || defaultTheme)
-        setSidebar(sidebar || defaultSidebar)
+        setTheme(theme)
+        setSidebar(sidebar)
       } finally {
         setInitialized(true)
       }

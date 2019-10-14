@@ -17,7 +17,7 @@ const Header = props => {
   return (
     <>
       <Group align={Alignment.LEFT}>
-        <Logo src={logo} />
+        <Logo src={logo} height="32" style={{ borderRadius: "50%" }} />
         <Flex ml={100} align="center" justify="center">
           <Box>
             <OrgList orgs={orgs} org={org} />

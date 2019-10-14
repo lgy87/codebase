@@ -6,9 +6,9 @@ import { useHistory } from "react-router-dom"
 
 import useStorage from "~/hooks/useStorage"
 import { apps } from "~/configs"
+import { NAME } from "@/Entry/useConfig"
 
 import { setName } from "../Entry/actions"
-import { NAME } from "../Entry/useConfig"
 
 function Menu() {
   const dispatch = useDispatch()

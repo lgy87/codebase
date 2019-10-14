@@ -6,6 +6,8 @@ import { useHistory } from "react-router-dom"
 
 import toaster from "~/utils/toaster"
 import useFieldState from "~/hooks/useFieldState"
+import storage from "~/utils/storage"
+import { NAME } from "@/Entry/useConfig"
 
 import auth from "./logic"
 import { captchaUrl } from "./logic/config"
@@ -58,7 +60,11 @@ export default function Container(props: any) {
   }
 
   function goHome(userOrg: UserOrgs) {
-    history.push(`/${name}/${userOrg.org.current}`, { replace: true })
+    storage
+      .setItem(NAME, name)
+      .then(() =>
+        history.push(`/${name}/${userOrg.org.current}`, { replace: true }),
+      )
   }
 
   function clearUUID(userOrg: UserOrgs) {

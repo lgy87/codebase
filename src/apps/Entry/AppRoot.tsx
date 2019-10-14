@@ -4,9 +4,7 @@ import { Route, Redirect, Switch } from "react-router-dom"
 import { Spinner, Intent } from "@blueprintjs/core"
 import * as ra from "ramda-adjunct"
 
-import { Sidebar, Theme, Name } from "~/types"
 import { name as GZQAppName } from "@/GZQ.NeXT/config"
-import { UserOrgs } from "@/GZQ.NeXT/Auth/logic/types"
 
 import EmptyState from "../EmptyState"
 import useConfig from "./useConfig"
@@ -27,7 +25,7 @@ const AppRoot: FC<{}> = () => {
       dispatch(setTheme(theme))
       dispatch(setSidebar(sidebar))
     })()
-  }, [])
+  }, [name, theme, sidebar])
 
   if (ra.isFalsy(initialized)) return <EmptyState />
 
