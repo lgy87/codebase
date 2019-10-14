@@ -7,8 +7,8 @@ import { useHistory } from "react-router-dom"
 import useStorage from "~/hooks/useStorage"
 import { apps } from "~/configs"
 
-import { setName } from "../Entry/ducks"
-import { NAME } from "../Entry/useConfigs"
+import { setName } from "../Entry/actions"
+import { NAME } from "../Entry/useConfig"
 
 function Menu() {
   const dispatch = useDispatch()

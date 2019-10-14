@@ -8,8 +8,8 @@ import { useDispatch } from "react-redux"
 
 import useTheme from "~/hooks/useTheme"
 import useStorage from "~/hooks/useStorage"
-import { setTheme } from "@/Entry/ducks"
-import { THEME } from "~/types"
+import { setTheme } from "@/Entry/actions"
+import { THEME } from "@/Entry/useConfig"
 
 import config from "./config"
 import Item from "./Item"

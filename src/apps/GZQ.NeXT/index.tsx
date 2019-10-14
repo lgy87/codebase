@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react"
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Switch,
-  Redirect,
-} from "react-router-dom"
+import { Route, Switch, Redirect } from "react-router-dom"
 import { usePromise } from "react-use"
+import { useSelector } from "react-redux"
 
 import userOrgInfoStorage from "~/utils/userOrgInfoStorage"
+import { name } from "./config"
 
 import { isLoggedIntoGZQ } from "./Auth/logic"
 
@@ -19,12 +15,16 @@ import { UserOrgs } from "./Auth/logic/types"
 
 export default ({ match }: any) => {
   const loginURL = `${match.path}/login`
+  const currentOrg = "90006539052"
 
   return (
     <Switch>
       <Route path={loginURL} component={Auth} />
       {isLoggedIntoGZQ() ? (
-        <Route component={GZQApp} />
+        <>
+          <Route path={`/${name}/:id`} component={GZQApp} />
+          <Redirect to={`/${name}/${currentOrg}`} />
+        </>
       ) : (
         <Redirect to={loginURL} />
       )}
@@ -47,9 +47,9 @@ function GZQApp(props: any) {
     <AppTemplate>
       <Header {...userOrg} />
       <ul>
-        <li>sidebar</li>
+        <li>sidebar...</li>
       </ul>
-      <div>content</div>
+      <div>content --- </div>
       <h1>loading.....</h1>
     </AppTemplate>
   )

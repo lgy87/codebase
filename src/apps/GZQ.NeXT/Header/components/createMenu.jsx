@@ -10,7 +10,7 @@ export const divider = { type: DIVIDER }
 
 export default function createMenu(menu = [], menuItemCreator) {
   const createItem = r.defaultTo(createMenuItem, menuItemCreator)
-  return <Menu style={style.menu}>{menu.map(createItem)}</Menu>
+  return <Menu className={style.menu}>{menu.map(createItem)}</Menu>
 }
 
 function createMenuItem(item, index) {

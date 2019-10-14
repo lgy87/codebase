@@ -1,27 +1,22 @@
 import * as r from "ramda"
-import { createActions, handleActions, handleAction } from "redux-actions"
-
+import { handleActions, handleAction } from "redux-actions"
+import { createReducer } from "~/utils/redux"
 import { combineReducers } from "redux"
+import {
+  toggleSidebarPosition,
+  setSidebarRight,
+  setSidebarLeft,
+  setSidebarWidth,
+  setSidebar,
+  setName,
+  setTheme,
+} from "./actions"
+
+import { Name, Theme, Sidebar } from "~/types"
 import * as configs from "~/configs"
 
 const leftLens = r.lensProp("left")
 const widthLens = r.lensProp("width")
-
-export const {
-  setSidebar,
-  setSidebarWidth,
-  setSidebarLeft,
-  setSidebarRight,
-  toggleSidebarPosition,
-} = createActions(
-  "SET_SIDEBAR",
-  "SET_SIDEBAR_WIDTH",
-  "SET_SIDEBAR_LEFT",
-  "SET_SIDEBAR_RIGHT",
-  "TOGGLE_SIDEBAR_POSITION",
-)
-
-export const { setName, setTheme } = createActions("SET_NAME", "SET_THEME")
 
 const sidebar = handleActions(
   {
@@ -36,32 +31,30 @@ const sidebar = handleActions(
   configs.sidebar,
 )
 
-/*
- r.pipe(
-    r.tap(x => {
-      console.log(x)
-      return x
-    }),
-    r.nthArg(1),
-    r.prop("payload"),
- ),
-   */
-
 const name = handleAction(
   String(setName),
-  function(x, y) {
-    console.log(x, y)
-    return x
-  },
-  configs.name,
-)
-const theme = handleAction(
-  String(setTheme),
   r.pipe(
     r.nthArg(1),
     r.prop("payload"),
   ),
-  configs.theme,
+  configs.name,
+)
+
+// const theme = handleAction(
+//   String(setTheme),
+//   r.pipe(
+//     r.nthArg(1),
+//     r.prop("payload"),
+//   ),
+//   configs.theme,
+// )
+
+const theme = createReducer(configs.theme).handleAction(
+  setTheme,
+  r.pipe<any, any>(
+    r.nthArg(1),
+    r.prop("payload"),
+  ),
 )
 
 export default combineReducers({

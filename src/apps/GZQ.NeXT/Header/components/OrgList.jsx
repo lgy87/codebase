@@ -35,11 +35,6 @@ const OrgList = props => {
       //itemRenderer={createItem}
       itemListRenderer={() => me}
     >
-      {/* <ImageWithText
-        src={currentOrg.logo}
-        text={currentOrg.name}
-        textStyle={textStyle}
-      /> */}
       <ThemedButton
         intent="primary"
         icon="briefcase"

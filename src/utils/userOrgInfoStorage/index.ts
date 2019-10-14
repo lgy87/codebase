@@ -1,7 +1,7 @@
 import * as r from "ramda"
 
 import storage from "~/utils/storage"
-import { USER_ORG_INFO, actions, ActionType } from "./config"
+import { USER_ORG_INFO, actions } from "./config"
 
 export default r.reduce(transform, {}, actions)
 

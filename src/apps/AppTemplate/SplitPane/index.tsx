@@ -2,13 +2,13 @@ import React, { memo, useCallback, FC, ReactNode } from "react"
 import * as r from "ramda"
 import ReactSplitPane from "react-split-pane"
 import _ from "lodash"
-
 import { useDispatch, useSelector } from "react-redux"
+
 import useStorage from "~/hooks/useStorage"
 import { Sidebar } from "~/types"
+import { setSidebarWidth } from "@/Entry/actions"
+import { SIDEBAR } from "@/Entry/useConfig"
 
-import { setSidebarWidth } from "../../Entry/ducks"
-import { SIDEBAR } from "../../Entry/useConfigs"
 import style from "../style.module.scss"
 
 type SizeChangeHandler = (width: number) => void
@@ -26,7 +26,7 @@ const SplitPane: FC<SplitPaneProps> = ({ isSidebarLeft, children }) => {
   const dispatch = useDispatch()
   const [, presistSidebarWidth] = useStorage(SIDEBAR)
 
-  const sidebar = useSelector(r.path(["configs", "sidebar"])) as Sidebar
+  const sidebar = useSelector(r.pathOr({}, ["configs", "sidebar"])) as Sidebar
   const primary = isSidebarLeft ? "first" : "second"
 
   const handleSizeChange: SizeChangeHandler = useCallback(

@@ -2,26 +2,23 @@ import React, { FC, lazy, Suspense, useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { Route, Redirect, Switch } from "react-router-dom"
 import { Spinner, Intent } from "@blueprintjs/core"
+import * as ra from "ramda-adjunct"
 
 import { Sidebar, Theme, Name } from "~/types"
 import { name as GZQAppName } from "@/GZQ.NeXT/config"
 import { UserOrgs } from "@/GZQ.NeXT/Auth/logic/types"
 
-import { setSidebar, setName, setTheme } from "./ducks"
-
-type Props = {
-  name: Name
-  theme: Theme
-  sidebar: Sidebar
-  userOrgs: UserOrgs
-}
+import EmptyState from "../EmptyState"
+import useConfig from "./useConfig"
+import { setSidebar, setName, setTheme } from "./actions"
 
 const GZQ = lazy(() => import("../GZQ.NeXT"))
 const Pkgs = lazy(() => import("../PkgsManagement"))
 
 const loading = <Spinner intent={Intent.PRIMARY} size={100} />
 
-const AppRoot: FC<Props> = ({ name, sidebar, theme, userOrgs }) => {
+const AppRoot: FC<{}> = () => {
+  const { name, theme, sidebar, initialized } = useConfig()
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -31,6 +28,8 @@ const AppRoot: FC<Props> = ({ name, sidebar, theme, userOrgs }) => {
       dispatch(setSidebar(sidebar))
     })()
   }, [])
+
+  if (ra.isFalsy(initialized)) return <EmptyState />
 
   return (
     <Suspense fallback={loading}>

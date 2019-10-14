@@ -3,25 +3,17 @@ import { useToggle } from "react-use"
 
 import storage from "~/utils/storage"
 import { Name, Theme, Sidebar } from "~/types"
-import {
-  name as defaultName,
-  theme as defaultTheme,
-  sidebar as defaultSidebar,
-} from "~/configs"
-
-import useUserOrgsInfo from "./useUserOrgsInfo"
+import { theme as defaultTheme, sidebar as defaultSidebar } from "~/configs"
 
 export const NAME = "NAME"
 export const THEME = "THEME"
 export const SIDEBAR = "SIDEBAR"
 
-export default function useConfigs() {
-  const [name, setName] = useState(defaultName as Name)
-  const [theme, setTheme] = useState(defaultTheme as Theme)
-  const [sidebar, setSidebar] = useState(defaultSidebar as Sidebar)
+export default function useConfig() {
+  const [name, setName] = useState("" as Name)
+  const [theme, setTheme] = useState({} as Theme)
+  const [sidebar, setSidebar] = useState({} as Sidebar)
   const [initialized, setInitialized] = useToggle(false)
-
-  const userOrgs = useUserOrgsInfo()
 
   useEffect(() => {
     ;(async () => {
@@ -33,8 +25,8 @@ export default function useConfigs() {
         ])
 
         setName(name)
-        setTheme(theme)
-        setSidebar(sidebar)
+        setTheme(theme || defaultTheme)
+        setSidebar(sidebar || defaultSidebar)
       } finally {
         setInitialized(true)
       }
@@ -46,6 +38,5 @@ export default function useConfigs() {
     theme,
     sidebar,
     initialized,
-    userOrgs,
   }
 }
