@@ -2,9 +2,11 @@ import React from "react"
 import { Popover, Position, PopoverInteractionKind } from "@blueprintjs/core"
 
 import { ThemedButton } from "~/components/Button"
+import useOrgId from "@/GZQ.NeXT/hooks/useOrgId"
 import createMenu, { divider } from "./createMenu"
 
-export default function AppStore(props: any) {
+export default function AppStore() {
+  const orgId = useOrgId()
   const menu = [
     {
       text: "申请试用商务版",
@@ -17,7 +19,7 @@ export default function AppStore(props: any) {
     {
       text: "管理 / 增购 / 续购",
       icon: "fast-forward",
-      href: `https://workbench.chanjet.com/myapp/list?orgId=${props.org}`,
+      href: `https://workbench.chanjet.com/myapp/list?orgId=${orgId}`,
       target: "_blank",
     },
   ]

@@ -2,7 +2,6 @@ import React, { memo } from "react"
 import { Alignment, Navbar, Colors } from "@blueprintjs/core"
 import * as r from "ramda"
 import { Flex, Box } from "reflexbox"
-import { useSelector } from "react-redux"
 
 import Logo from "~/components/Image"
 import { logo } from "./config"
@@ -13,22 +12,19 @@ import OrgList from "./OrgList"
 const { Group } = Navbar
 
 const Header = () => {
-  const orgs = useSelector(r.path(["gzq", "orgs"]))
-  const org = useSelector(r.path(["gzq", "org"]))
-
   return (
     <>
       <Group align={Alignment.LEFT}>
         <Logo src={logo} height="32" style={{ borderRadius: "50%" }} />
         <Flex ml={100} align="center" justify="center">
           <Box>
-            <OrgList org={org} orgs={orgs} />
+            <OrgList />
           </Box>
         </Flex>
       </Group>
 
       <Group align={Alignment.RIGHT}>
-        <AppStore org={org.current} />
+        <AppStore />
         <Navbar.Divider />
         <Profile />
       </Group>

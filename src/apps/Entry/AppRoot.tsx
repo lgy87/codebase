@@ -3,8 +3,13 @@ import { useDispatch } from "react-redux"
 import { Route, Redirect, Switch } from "react-router-dom"
 import { Spinner, Intent } from "@blueprintjs/core"
 import * as ra from "ramda-adjunct"
+import * as r from "ramda"
 
-import userOrgInfoStorage from "~/utils/userOrgInfoStorage"
+import {
+  userStorage,
+  orgsStorage,
+  orgStorage,
+} from "~/utils/userOrgInfoStorage"
 import { name as GZQAppName } from "@/GZQ.NeXT/config"
 import { isLoggedIntoGZQ } from "@/GZQ.NeXT/Auth/logic"
 
@@ -40,12 +45,18 @@ const AppRoot: FC<{}> = () => {
   useEffect(() => {
     ;(async () => {
       try {
-        const cached = await userOrgInfoStorage.getItem()
+        const [user, orgs, org] = await Promise.all([
+          userStorage.getItem(),
+          orgsStorage.getItem(),
+          orgStorage.getItem(),
+        ])
         isLoggedIntoGZQ() ? dispatch(setLoggedIn()) : dispatch(setLoggedOut())
 
-        dispatch(setUser(cached.user))
-        dispatch(setOrgs(cached.orgs))
-        dispatch(setOrg(cached.org))
+        if (r.isEmpty(user)) return
+
+        dispatch(setUser(user))
+        dispatch(setOrgs(orgs))
+        dispatch(setOrg(org))
       } catch {}
     })()
   }, [])

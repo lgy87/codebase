@@ -1,45 +1,27 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { Route, Switch, Redirect } from "react-router-dom"
-import { usePromise } from "react-use"
-import { useSelector, useDispatch } from "react-redux"
-import * as r from "ramda"
 
-import userOrgInfoStorage from "~/utils/userOrgInfoStorage"
+import { useSelector } from "react-redux"
+import * as r from "ramda"
 import AppTemplate from "@/AppTemplate"
 
 import { isLoggedIntoGZQ } from "./Auth/logic"
 import { name } from "./config"
 import Header from "./Header"
 import Auth from "./Auth"
-
-import { setLoggedIn, setLoggedOut, setOrg, setOrgs, setUser } from "./actions"
+import Sidebar from "./Sidebar"
 
 const loginURL = `/${name}/login`
 
 export default () => {
-  const dispatch = useDispatch()
-  const isLogged = useSelector(r.path(["gzq", "logged"]))
   const currentOrg = useSelector(r.path(["gzq", "org", "current"]))
-
-  // useEffect(() => {
-  //   ;(async () => {
-  //     try {
-  //       const cached = await userOrgInfoStorage.getItem()
-  //       isLoggedIntoGZQ() ? dispatch(setLoggedIn()) : dispatch(setLoggedOut())
-
-  //       dispatch(setUser(cached.user))
-  //       dispatch(setOrgs(cached.orgs))
-  //       dispatch(setOrg(cached.org))
-  //     } catch {}
-  //   })()
-  // }, [])
 
   return (
     <Switch>
       <Route path={loginURL} component={Auth} />
-      {isLogged ? (
+      {isLoggedIntoGZQ() ? (
         <>
-          <Route path={`/${name}/:id`} component={GZQApp} />
+          <Route path={`/${name}/:id`} component={GZQ} />
           <Redirect to={`/${name}/${currentOrg}`} />
         </>
       ) : (
@@ -49,15 +31,11 @@ export default () => {
   )
 }
 
-function GZQApp(props: any) {
-  const mounted = usePromise()
-
+function GZQ(props: any) {
   return (
     <AppTemplate>
       <Header />
-      <ul>
-        <li>sidebar...</li>
-      </ul>
+      <Sidebar />
       <div>content --- </div>
       <h1>loading.....</h1>
     </AppTemplate>

@@ -18,4 +18,5 @@ module.exports = function(app) {
     .use("/web", proxyConfig)
     .use("/account", proxyConfig)
     .use("/quan", proxyConfig)
+    .use("/app", proxyConfig)
 }

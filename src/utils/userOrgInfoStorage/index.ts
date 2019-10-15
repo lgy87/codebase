@@ -1,16 +1,19 @@
 import * as r from "ramda"
 
 import storage from "~/utils/storage"
-import { USER_ORG_INFO, actions } from "./config"
+import { USER, ORG, ORGS, actions, ActionType } from "./config"
 
-export default r.reduce(transform, {}, actions)
+export const userStorage = r.reduce(createTransformer(USER), {}, actions)
+export const orgsStorage = r.reduce(createTransformer(ORGS), {}, actions)
+export const orgStorage = r.reduce(createTransformer(ORG), {}, actions)
 
-function transform(accu: any, key: any) {
-  return {
-    ...accu,
-    [key](value: any) {
-      // @ts-ignore
-      return storage[key](USER_ORG_INFO, value)
-    },
+function createTransformer(name: string) {
+  return function transform(accu: any, key: ActionType) {
+    return {
+      ...accu,
+      [key](value: any) {
+        return (storage as any)[key](name, value)
+      },
+    }
   }
 }

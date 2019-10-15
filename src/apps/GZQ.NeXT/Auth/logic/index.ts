@@ -2,7 +2,11 @@ import * as r from "ramda"
 
 import dataSource, { jsonp } from "~/utils/dataSource"
 import { loginStateUrl, gzqLoginUrl, gzqLogoutUrl } from "./config"
-import userOrgInfoStorage from "~/utils/userOrgInfoStorage"
+import {
+  userStorage,
+  orgsStorage,
+  orgStorage,
+} from "~/utils/userOrgInfoStorage"
 
 import normalizeUserOrgInfo from "./normalizeUserOrgInfo"
 import {
@@ -18,7 +22,14 @@ export default { login, logout }
 
 async function login(authInfo: AuthInfo) {
   // Has logged into GZQ
-  if (isLoggedIntoGZQ()) return userOrgInfoStorage.getItem()
+  if (isLoggedIntoGZQ()) {
+    const [user, orgs, org] = await Promise.all([
+      userStorage.getItem(),
+      orgsStorage.getItem(),
+      orgStorage.getItem(),
+    ])
+    return { user, orgs, org }
+  }
 
   try {
     const ciaState = await getCiaLoginState()
@@ -29,7 +40,11 @@ async function login(authInfo: AuthInfo) {
     const orgListInfo = await getOrgList()
     const normalizedUserOrgInfo = normalizeUserOrgInfo(orgListInfo)
 
-    await userOrgInfoStorage.setItem(normalizedUserOrgInfo)
+    await Promise.all([
+      userStorage.setItem(normalizedUserOrgInfo.user),
+      orgsStorage.setItem(normalizedUserOrgInfo.orgs),
+      orgStorage.setItem(normalizedUserOrgInfo.org),
+    ])
     return normalizedUserOrgInfo
   } catch (e) {
     e.message = e.msg
@@ -79,7 +94,13 @@ export const isLoggedIntoGZQ = () => {
 async function logout() {
   return dataSource
     .post(gzqLogoutUrl)
-    .then(userOrgInfoStorage.removeItem)
+    .then(() =>
+      Promise.all([
+        userStorage.removeItem(),
+        orgsStorage.removeItem(),
+        orgStorage.removeItem(),
+      ]),
+    )
     .then(_ => ({
       message: "退出成功!",
     }))

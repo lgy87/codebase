@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react"
 
-import userOrgInfoStorage from "~/utils/userOrgInfoStorage"
+import {
+  userStorage,
+  orgsStorage,
+  orgStorage,
+} from "~/utils/userOrgInfoStorage"
 import { UserOrgs } from "@/GZQ.NeXT/Auth/types"
 
 export default function useConfigs() {
@@ -9,8 +13,12 @@ export default function useConfigs() {
   useEffect(() => {
     ;(async () => {
       try {
-        const userOrgs = await userOrgInfoStorage.getItem()
-        setUserOrgs(userOrgs)
+        const [user, orgs, org] = await Promise.all([
+          userStorage.getItem(),
+          orgsStorage.getItem(),
+          orgStorage.getItem(),
+        ])
+        setUserOrgs({ user, orgs, org })
       } catch {}
     })()
   }, [])

@@ -4,12 +4,19 @@ import React, { useState, useCallback } from "react"
 import md5 from "js-md5"
 import { useHistory } from "react-router-dom"
 
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 
+import {
+  userStorage,
+  orgsStorage,
+  orgStorage,
+} from "~/utils/userOrgInfoStorage"
 import toaster from "~/utils/toaster"
 import useFieldState from "~/hooks/useFieldState"
 import storage from "~/utils/storage"
 import { NAME } from "@/Entry/useConfig"
+
+import { setLoggedIn, setLoggedOut, setOrg, setOrgs, setUser } from "../actions"
 
 import auth from "./logic"
 import { captchaUrl } from "./logic/config"
@@ -27,6 +34,7 @@ export default function Container(props: any) {
   const [random, setRandom_] = useState(Math.random)
 
   const history = useHistory()
+  const dispatch = useDispatch()
   const setRandom = useCallback(() => setRandom_(Math.random), [])
 
   return (
@@ -62,16 +70,24 @@ export default function Container(props: any) {
   }
 
   function goHome(userOrg: UserOrgs) {
-    storage
-      .setItem(NAME, name)
-      .then(() =>
-        history.push(`/${name}/${userOrg.org.current}`, { replace: true }),
-      )
+    history.push(`/${name}/${userOrg.org.current}`, { replace: true })
   }
 
   function clearUUID(userOrg: UserOrgs) {
     setUUID(undefined)
     return userOrg
+  }
+
+  function updateStore(userOrgs: UserOrgs) {
+    const { user, orgs, org } = userOrgs
+
+    if (r.isEmpty(user)) return userOrgs
+
+    dispatch(setUser(user))
+    dispatch(setOrgs(orgs))
+    dispatch(setOrg(org))
+
+    return userOrgs
   }
 
   function handleLogin(authInfo: AuthInfo) {
@@ -83,13 +99,14 @@ export default function Container(props: any) {
       .login({ ...authInfo, password: encryptedPassword })
       .then(clearUUID)
       .then(welcome)
+      .then(presistUserOrgs)
+      .then(updateStore)
       .then(goHome)
       .catch((e: any) => {
         resetCaptchaCode()
         setWhileRequesting(false)
 
         if (e.uuid) setUUID(e.uuid)
-
         return Promise.reject(e)
       })
       .catch(toaster.warning)
@@ -100,4 +117,16 @@ function welcome(userOrg: UserOrgs) {
   const name = r.pathOr("", ["user", "name"], userOrg)
   toaster.success({ message: `登录成功，欢迎 ${name}!` })
   return userOrg
+}
+
+async function presistUserOrgs(userOrgs: UserOrgs) {
+  const { user, orgs, org } = userOrgs
+
+  await Promise.all([
+    userStorage.setItem(user),
+    orgsStorage.setItem(orgs),
+    orgStorage.setItem(org),
+  ])
+
+  return userOrgs
 }
