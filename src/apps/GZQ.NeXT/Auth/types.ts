@@ -72,8 +72,9 @@ export type OrgItem = {
   logo: string
   name: string
 }
+export type Orgs = Array<OrgItem>
 export type UserOrgs = {
   user: User
   org: Org
-  orgs: Array<OrgItem>
+  orgs: Orgs
 }

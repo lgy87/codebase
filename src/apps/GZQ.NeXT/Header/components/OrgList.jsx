@@ -8,32 +8,51 @@ import {
   PopoverInteractionKind,
 } from "@blueprintjs/core"
 import { Select } from "@blueprintjs/select"
+import { useHistory } from "react-router-dom"
+import { useDispatch } from "react-redux"
 
 import ImageWithText from "~/components/ImageWithText"
 import { ThemedButton } from "~/components/Button"
+import { setCurrentOrg } from "@/GZQ.NeXT/actions"
+import { name } from "@/GZQ.NeXT/config"
 
 import { defaultOrgLogo } from "./config"
 import createMenu from "./createMenu"
 
-const OrgList = props => {
-  const { org = {}, orgs = [] } = props
+const OrgList = ({ org, orgs }) => {
   const { defaults, current = defaults } = org
+  const history = useHistory()
+  const dispatch = useDispatch()
 
   const currentOrg = r.pipe(
     r.find(r.propEq("id", current)),
     r.defaultTo({}),
   )(orgs)
 
-  const me = createMenu(polyfillLogoForOrgs(orgs), createItem)
+  const itemRenderer = createMenu(polyfillLogoForOrgs(orgs), createItem)
+
+  function createItem({ logo, name, id }) {
+    return (
+      <Menu.Item
+        key={id}
+        onClick={() => {
+          dispatch(setCurrentOrg(id))
+          history.push(`/${name}/${id}`)
+        }}
+        text={<ImageWithText src={logo} text={name} />}
+      />
+    )
+  }
 
   return (
     <Select
       items={polyfillLogoForOrgs(orgs.concat(orgs, orgs))}
       filterable={orgs.length >= 8}
       popoverProps={popoverProps}
-      //scrollToActiveItem
-      //itemRenderer={createItem}
-      itemListRenderer={() => me}
+      // scrollToActiveItem
+      itemRenderer={createItem}
+      itemListRenderer={() => itemRenderer}
+      // onItemSelect={itemSelect}
     >
       <ThemedButton
         intent="primary"
@@ -45,7 +64,7 @@ const OrgList = props => {
   )
 }
 
-export default r.pipe(memo)(OrgList)
+export default memo(OrgList)
 
 const textStyle = {
   color: "white",
@@ -55,15 +74,6 @@ const popoverProps = {
   position: Position.TOP,
   position: Position.BOTTOM_LEFT,
   interactionKind: PopoverInteractionKind.HOVER,
-}
-
-function createItem(item, index) {
-  return (
-    <Menu.Item
-      key={index}
-      text={<ImageWithText src={item.logo} text={item.name} />}
-    />
-  )
 }
 
 const logoMissing = r.pipe(

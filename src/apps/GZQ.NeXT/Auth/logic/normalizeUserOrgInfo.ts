@@ -1,6 +1,6 @@
 import * as r from "ramda"
 
-import { OrgListInfo, UserOrgs, OrgListPayload } from "./types"
+import { OrgListInfo, UserOrgs, OrgListPayload } from "../types"
 
 const normalizeOrgItem = r.applySpec({
   initialized: r.prop("isInitial"),

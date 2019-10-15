@@ -4,7 +4,17 @@ import { Route, Redirect, Switch } from "react-router-dom"
 import { Spinner, Intent } from "@blueprintjs/core"
 import * as ra from "ramda-adjunct"
 
+import userOrgInfoStorage from "~/utils/userOrgInfoStorage"
 import { name as GZQAppName } from "@/GZQ.NeXT/config"
+import { isLoggedIntoGZQ } from "@/GZQ.NeXT/Auth/logic"
+
+import {
+  setLoggedIn,
+  setLoggedOut,
+  setOrg,
+  setOrgs,
+  setUser,
+} from "@/GZQ.NeXT/actions"
 
 import EmptyState from "../EmptyState"
 import useConfig from "./useConfig"
@@ -26,6 +36,19 @@ const AppRoot: FC<{}> = () => {
       dispatch(setSidebar(sidebar))
     })()
   }, [name, theme, sidebar])
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const cached = await userOrgInfoStorage.getItem()
+        isLoggedIntoGZQ() ? dispatch(setLoggedIn()) : dispatch(setLoggedOut())
+
+        dispatch(setUser(cached.user))
+        dispatch(setOrgs(cached.orgs))
+        dispatch(setOrg(cached.org))
+      } catch {}
+    })()
+  }, [])
 
   if (ra.isFalsy(initialized)) return <EmptyState />
 

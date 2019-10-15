@@ -47,7 +47,7 @@
   },
   "scripts": {
     "start": "npm-run-all -p web electron",
-    "web": "BROWSER=none react-app-rewired start",
+    "web": "PORT=5555 BROWSER=none react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "jest --watch --passWithNoTests",
     "test-nw": "jest --passWithNoTests",

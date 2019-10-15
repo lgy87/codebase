@@ -1,26 +1,43 @@
 import React, { useEffect, useState } from "react"
 import { Route, Switch, Redirect } from "react-router-dom"
 import { usePromise } from "react-use"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
+import * as r from "ramda"
 
 import userOrgInfoStorage from "~/utils/userOrgInfoStorage"
-import { name } from "./config"
+import AppTemplate from "@/AppTemplate"
 
 import { isLoggedIntoGZQ } from "./Auth/logic"
-
-import AppTemplate from "@/AppTemplate"
+import { name } from "./config"
 import Header from "./Header"
 import Auth from "./Auth"
-import { UserOrgs } from "./Auth/logic/types"
 
-export default ({ match }: any) => {
-  const loginURL = `${match.path}/login`
-  const currentOrg = "90006539052"
+import { setLoggedIn, setLoggedOut, setOrg, setOrgs, setUser } from "./actions"
+
+const loginURL = `/${name}/login`
+
+export default () => {
+  const dispatch = useDispatch()
+  const isLogged = useSelector(r.path(["gzq", "logged"]))
+  const currentOrg = useSelector(r.path(["gzq", "org", "current"]))
+
+  // useEffect(() => {
+  //   ;(async () => {
+  //     try {
+  //       const cached = await userOrgInfoStorage.getItem()
+  //       isLoggedIntoGZQ() ? dispatch(setLoggedIn()) : dispatch(setLoggedOut())
+
+  //       dispatch(setUser(cached.user))
+  //       dispatch(setOrgs(cached.orgs))
+  //       dispatch(setOrg(cached.org))
+  //     } catch {}
+  //   })()
+  // }, [])
 
   return (
     <Switch>
       <Route path={loginURL} component={Auth} />
-      {isLoggedIntoGZQ() ? (
+      {isLogged ? (
         <>
           <Route path={`/${name}/:id`} component={GZQApp} />
           <Redirect to={`/${name}/${currentOrg}`} />
@@ -34,18 +51,10 @@ export default ({ match }: any) => {
 
 function GZQApp(props: any) {
   const mounted = usePromise()
-  const [userOrg, setUserOrg] = useState({} as UserOrgs)
-
-  useEffect(() => {
-    ;(async () => {
-      const cached = await mounted<UserOrgs>(userOrgInfoStorage.getItem())
-      setUserOrg(cached)
-    })()
-  }, [])
 
   return (
     <AppTemplate>
-      <Header {...userOrg} />
+      <Header />
       <ul>
         <li>sidebar...</li>
       </ul>

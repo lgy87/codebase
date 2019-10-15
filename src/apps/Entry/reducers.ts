@@ -1,8 +1,8 @@
-import * as r from "ramda"
-import { handleActions, handleAction } from "redux-actions"
-import { createReducer } from "~/utils/redux"
-
 import { combineReducers } from "redux"
+
+import { createReducer } from "~/utils/redux"
+import * as configs from "~/configs"
+
 import {
   toggleSidebarPosition,
   setSidebarRight,
@@ -12,7 +12,6 @@ import {
   setName,
   setTheme,
 } from "./actions"
-import * as configs from "~/configs"
 
 const sidebar = createReducer(configs.sidebar)
   .handleAction(setSidebar, (_, { payload }) => payload)

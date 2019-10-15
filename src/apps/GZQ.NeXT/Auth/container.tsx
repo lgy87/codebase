@@ -4,6 +4,8 @@ import React, { useState, useCallback } from "react"
 import md5 from "js-md5"
 import { useHistory } from "react-router-dom"
 
+import { useSelector } from "react-redux"
+
 import toaster from "~/utils/toaster"
 import useFieldState from "~/hooks/useFieldState"
 import storage from "~/utils/storage"
@@ -11,7 +13,7 @@ import { NAME } from "@/Entry/useConfig"
 
 import auth from "./logic"
 import { captchaUrl } from "./logic/config"
-import { AuthInfo, UserOrgs } from "./logic/types"
+import { AuthInfo, UserOrgs } from "./types"
 import View from "./view"
 
 import { name } from "../config"

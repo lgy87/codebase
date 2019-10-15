@@ -1,6 +1,8 @@
 import React, { memo, FC } from "react"
 import { Popover, Position, PopoverInteractionKind } from "@blueprintjs/core"
 import { useHistory } from "react-router"
+import { useSelector } from "react-redux"
+import * as r from "ramda"
 
 import Avatar from "~/components/Avatar"
 import toaster from "~/utils/toaster"
@@ -9,7 +11,8 @@ import auth from "@/GZQ.NeXT/Auth/logic"
 
 import createMenu, { divider } from "./createMenu"
 
-const Profile: FC<any> = props => {
+const Profile: FC<any> = () => {
+  const user = useSelector(r.path(["gzq", "user"]))
   const history = useHistory()
 
   const menu = [
@@ -39,7 +42,7 @@ const Profile: FC<any> = props => {
       hoverOpenDelay={0}
       position={Position.BOTTOM_RIGHT}
     >
-      <Avatar {...props} />
+      <Avatar {...user} />
     </Popover>
   )
 

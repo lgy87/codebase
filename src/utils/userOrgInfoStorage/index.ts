@@ -12,6 +12,5 @@ function transform(accu: any, key: any) {
       // @ts-ignore
       return storage[key](USER_ORG_INFO, value)
     },
-    // [key]: r.partial(storage[key], [USER_ORG_INFO]),
   }
 }

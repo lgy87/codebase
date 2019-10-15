@@ -12,7 +12,7 @@ import {
   LoginStateResponse,
   OrgListPayload,
   LoginRequestOption,
-} from "./types"
+} from "../types"
 
 export default { login, logout }
 
