@@ -3,17 +3,22 @@ import React, { FC, memo, useEffect } from "react"
 import dataSource from "~/utils/dataSource"
 import useOrgId from "@/GZQ.NeXT/hooks/useOrgId"
 
+import { AppInfoPayload } from "./types"
+
 const Sidebar: FC<{}> = () => {
   const orgId = useOrgId() as string
 
   useEffect(() => {
     ;(async () => {
-      dataSource.get("/app/web/icon/lightApps", {
-        params: {
-          orgId: orgId,
-          needOptNum: false,
+      const appItems = await dataSource.get<AppInfoPayload>(
+        "/app/web/icon/lightApps",
+        {
+          params: {
+            orgId: orgId,
+            needOptNum: false,
+          },
         },
-      })
+      )
     })()
   }, [orgId])
 
