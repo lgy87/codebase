@@ -4,7 +4,7 @@ import React, { useState, useCallback } from "react"
 import md5 from "js-md5"
 import { useHistory } from "react-router-dom"
 
-import { useSelector, useDispatch } from "react-redux"
+import { useDispatch } from "react-redux"
 
 import {
   userStorage,
@@ -13,11 +13,10 @@ import {
 } from "~/utils/userOrgInfoStorage"
 import toaster from "~/utils/toaster"
 import useFieldState from "~/hooks/useFieldState"
-import storage from "~/utils/storage"
-import { NAME } from "@/Entry/useConfig"
+import useUserOrgs from "@/GZQ.NeXT/hooks/useUserOrgs"
+import { User } from "@/GZQ.NeXT/Auth/types"
 
-import { setLoggedIn, setLoggedOut, setOrg, setOrgs, setUser } from "../actions"
-
+import { setOrg, setOrgs, setUser } from "../actions"
 import auth from "./logic"
 import { captchaUrl } from "./logic/config"
 import { AuthInfo, UserOrgs } from "./types"
@@ -32,6 +31,8 @@ export default function Container(props: any) {
   const [whileRequesting, setWhileRequesting] = useState(false)
   const [uuid, setUUID] = useState()
   const [random, setRandom_] = useState(Math.random)
+
+  const { user, orgs, org } = useUserOrgs()
 
   const history = useHistory()
   const dispatch = useDispatch()
@@ -111,6 +112,22 @@ export default function Container(props: any) {
       })
       .catch(toaster.warning)
   }
+
+  async function presistUserOrgs(userOrgs: UserOrgs) {
+    const { user: newUser, orgs: newOrgs, org: newOrg } = userOrgs
+
+    // 如果是本次登录和上次登录为同一user，使用缓存中的信息
+    // 这样可以保存上次用户退出时所在的企业
+    const availableOrg = isSameUser(user, newUser) ? org : newOrg
+
+    await Promise.all([
+      userStorage.setItem(newUser),
+      orgsStorage.setItem(newOrgs),
+      orgStorage.setItem(availableOrg),
+    ])
+
+    return { user: newUser, orgs: newOrgs, org: availableOrg } as UserOrgs
+  }
 }
 
 function welcome(userOrg: UserOrgs) {
@@ -119,14 +136,8 @@ function welcome(userOrg: UserOrgs) {
   return userOrg
 }
 
-async function presistUserOrgs(userOrgs: UserOrgs) {
-  const { user, orgs, org } = userOrgs
-
-  await Promise.all([
-    userStorage.setItem(user),
-    orgsStorage.setItem(orgs),
-    orgStorage.setItem(org),
-  ])
-
-  return userOrgs
+function isSameUser(oldUser: User, newUser: User) {
+  const oldUserId = r.prop("id", oldUser)
+  const newUserId = r.prop("id", newUser)
+  return oldUserId === newUserId
 }

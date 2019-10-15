@@ -92,18 +92,7 @@ export const isLoggedIntoGZQ = () => {
 }
 
 async function logout() {
-  return dataSource
-    .post(gzqLogoutUrl)
-    .then(() =>
-      Promise.all([
-        userStorage.removeItem(),
-        orgsStorage.removeItem(),
-        orgStorage.removeItem(),
-      ]),
-    )
-    .then(_ => ({
-      message: "退出成功!",
-    }))
+  return dataSource.post(gzqLogoutUrl)
 }
 
 async function doLogin(options: LoginRequestOption): Promise<LoginPayload> {

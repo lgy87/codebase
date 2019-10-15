@@ -10,9 +10,9 @@ import {
   orgsStorage,
   orgStorage,
 } from "~/utils/userOrgInfoStorage"
+import { Name, Theme, Sidebar } from "~/types"
 import { name as GZQAppName } from "@/GZQ.NeXT/config"
 import { isLoggedIntoGZQ } from "@/GZQ.NeXT/Auth/logic"
-
 import {
   setLoggedIn,
   setLoggedOut,
@@ -20,6 +20,7 @@ import {
   setOrgs,
   setUser,
 } from "@/GZQ.NeXT/actions"
+import useUserOrgs from "@/GZQ.NeXT/hooks/useUserOrgs"
 
 import EmptyState from "../EmptyState"
 import useConfig from "./useConfig"
@@ -32,34 +33,8 @@ const loading = <Spinner intent={Intent.PRIMARY} size={100} />
 
 const AppRoot: FC<{}> = () => {
   const { name, theme, sidebar, initialized } = useConfig()
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    ;(async () => {
-      dispatch(setName(name))
-      dispatch(setTheme(theme))
-      dispatch(setSidebar(sidebar))
-    })()
-  }, [name, theme, sidebar])
-
-  useEffect(() => {
-    ;(async () => {
-      try {
-        const [user, orgs, org] = await Promise.all([
-          userStorage.getItem(),
-          orgsStorage.getItem(),
-          orgStorage.getItem(),
-        ])
-        isLoggedIntoGZQ() ? dispatch(setLoggedIn()) : dispatch(setLoggedOut())
-
-        if (r.isEmpty(user)) return
-
-        dispatch(setUser(user))
-        dispatch(setOrgs(orgs))
-        dispatch(setOrg(org))
-      } catch {}
-    })()
-  }, [])
+  useUpdateConfigState(name, theme, sidebar)
+  useUpdateGZQInfo()
 
   if (ra.isFalsy(initialized)) return <EmptyState />
 
@@ -75,3 +50,30 @@ const AppRoot: FC<{}> = () => {
 }
 
 export default AppRoot
+
+function useUpdateConfigState(name: Name, theme: Theme, sidebar: Sidebar) {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    ;(async () => {
+      dispatch(setName(name))
+      dispatch(setTheme(theme))
+      dispatch(setSidebar(sidebar))
+    })()
+  }, [name, theme, sidebar])
+}
+
+function useUpdateGZQInfo() {
+  const dispatch = useDispatch()
+  const { user, orgs, org } = useUserOrgs()
+
+  useEffect(() => {
+    isLoggedIntoGZQ() ? dispatch(setLoggedIn()) : dispatch(setLoggedOut())
+
+    if (r.anyPass([ra.isFalsy, r.isEmpty])(user)) return
+
+    dispatch(setUser(user))
+    dispatch(setOrgs(orgs))
+    dispatch(setOrg(org))
+  }, [user, orgs, org])
+}
