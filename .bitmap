@@ -133,5 +133,22 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "version": "14.4.0"
+    "lgy87.utils/platform@1.0.0": {
+        "files": [
+            {
+                "relativePath": "src/utils/platform/index.ts",
+                "test": false,
+                "name": "index.ts"
+            },
+            {
+                "relativePath": "src/utils/platform/spec.ts",
+                "test": true,
+                "name": "spec.ts"
+            }
+        ],
+        "mainFile": "src/utils/platform/index.ts",
+        "origin": "AUTHORED",
+        "exported": true
+    },
+    "version": "14.4.1"
 }

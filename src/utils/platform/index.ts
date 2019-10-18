@@ -1,12 +1,10 @@
-import * as r from "ramda"
-import { loadJs } from "~/utils/loader"
-
 const platforms = {
   sunflower: /sunflower/i,
   wechat: /MicroMessenger/i,
   chanjet: /chanjet/i,
   qiandaola: /qiandaola/i,
   qq: /qq/i,
+  wechatMiniProgram: /miniProgram/,
 }
 
 export type Platform = Readonly<{
@@ -15,7 +13,7 @@ export type Platform = Readonly<{
   chanjet: boolean
   qiandaola: boolean
   qq: boolean
-  wechatMiniProgram: Promise<boolean>
+  wechatMiniProgram: boolean
 }>
 
 export function factory(ua: string): Platform {
@@ -26,24 +24,9 @@ export function factory(ua: string): Platform {
   const chanjet = test(platforms.chanjet)
   const qiandaola = test(platforms.qiandaola)
   const qq = test(platforms.qq)
-
-  const wechatMiniProgram = new Promise<boolean>(resolve => {
-    if (!wechat) resolve(false)
-
-    const wechatSdkUrl = "https://res.wx.qq.com/open/js/jweixin-1.3.2.js"
-    loadJs(wechatSdkUrl)
-      .then(() =>
-        // @ts-ignore
-        wx.miniProgram.getenv(
-          r.pipe(
-            // @ts-ignore
-            r.prop("miniprogram"),
-            resolve,
-          ),
-        ),
-      )
-      .catch(() => resolve(false))
-  })
+  const wechatMiniProgram =
+    test(platforms.wechatMiniProgram) ||
+    (window as any).__wxjs_environment === "miniprogram"
 
   return {
     sunflower,
