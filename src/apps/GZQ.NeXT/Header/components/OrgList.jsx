@@ -20,6 +20,10 @@ import { name as appName } from "@/GZQ.NeXT/config"
 import { defaultOrgLogo } from "./config"
 import createMenu from "./createMenu"
 
+const imageStyle = {
+  width: 24,
+}
+
 const OrgList = () => {
   const orgs = useSelector(r.path(["gzq", "orgs"]))
   const org = useSelector(r.path(["gzq", "org"]))
@@ -38,16 +42,19 @@ const OrgList = () => {
     return (
       <Menu.Item
         key={id}
-        onClick={async () => {
-          dispatch(setCurrentOrg(id))
-          const dirtyOrg = await orgStorage.getItem()
-          const newOrg = { ...dirtyOrg, current: id }
-          orgStorage.setItem(newOrg)
-          history.push(`/${appName}/${id}`)
-        }}
-        text={<ImageWithText src={logo} text={name} />}
+        style={{ height: 32 }}
+        onClick={() => handleItemClick(id)}
+        text={<ImageWithText src={logo} text={name} imageStyle={imageStyle} />}
       />
     )
+  }
+
+  const handleItemClick = async id => {
+    dispatch(setCurrentOrg(id))
+    const dirtyOrg = await orgStorage.getItem()
+    const newOrg = { ...dirtyOrg, current: id }
+    orgStorage.setItem(newOrg)
+    history.push(`/${appName}/${id}`)
   }
 
   return (

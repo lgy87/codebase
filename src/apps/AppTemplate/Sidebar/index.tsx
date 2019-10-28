@@ -1,10 +1,10 @@
-import React, { useState, useCallback } from "react"
+import React, { FC, useState, useCallback, memo } from "react"
 import cx from "classnames"
 import * as r from "ramda"
 import { Tree, ITreeNode } from "@blueprintjs/core"
 
-import routers from "./routers"
 import style from "./style.module.scss"
+import { RouteList } from "./types"
 
 const className = cx(style.sidebar, "height100")
 const createExpandedLens = r.pipe(
@@ -13,8 +13,12 @@ const createExpandedLens = r.pipe(
   r.lensPath,
 )
 
-function Sidebar() {
-  const [routerConfig, setRouterConfig] = useState(routers)
+type Props = {
+  routers: RouteList
+}
+
+const Sidebar: FC<Props> = props => {
+  const [routerConfig, setRouterConfig] = useState(props.routers)
 
   const handleNodeExpandAndCollapse = useCallback((indexPath, willExpand) => {
     const isExpandedLens = createExpandedLens(indexPath)
@@ -40,4 +44,4 @@ function Sidebar() {
   )
 }
 
-export default React.memo(Sidebar)
+export default memo(Sidebar)

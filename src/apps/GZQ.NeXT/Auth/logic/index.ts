@@ -97,7 +97,7 @@ async function logout() {
 
 async function doLogin(options: LoginRequestOption): Promise<LoginPayload> {
   return dataSource
-    .post<LoginRequestOption, LoginPayload>(gzqLoginUrl, options)
+    .post<LoginPayload>(gzqLoginUrl, options)
     .catch(e => Promise.reject(e))
 }
 

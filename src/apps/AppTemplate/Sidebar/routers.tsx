@@ -2,21 +2,22 @@ import * as r from "ramda"
 import * as ra from "ramda-adjunct"
 import React from "react"
 import { Link } from "react-router-dom"
-import configs from "./config"
-import { RouteItem, RouteList } from "./types"
+
+import { RouteItem, RouteList, RouteConfigList } from "./types"
 
 const CHILD_NODES = "childNodes"
 const forEach = r.addIndex(r.forEach)
 
-export default r.pipe(
+export default r.pipe<RouteConfigList, RouteList>(
   r.clone,
   r.tap(addIdRecursively),
+  // @ts-ignore
   r.tap(adjustNodesPath),
   r.tap(updateLabelToLink),
-)(configs) as RouteList
+)
 
 // 递归添加 id (与各自的 index 相同)
-function addIdRecursively(configs: RouteList) {
+function addIdRecursively(configs: RouteList): RouteList {
   forEach((config: unknown, index: number) => {
     ;(config as RouteItem).id = index
 
@@ -25,10 +26,12 @@ function addIdRecursively(configs: RouteList) {
       addIdRecursively(children)
     }
   }, configs)
+
+  return configs
 }
 
 // 除第一级外，子级的 Node 的 path 拼上父级的 path
-function adjustNodesPath(configs: RouteList, parentPath = "") {
+function adjustNodesPath(configs: RouteList, parentPath = ""): RouteList {
   forEach((config: unknown) => {
     const node = config as RouteItem
     node.path = `${parentPath}/${node.path}`
@@ -38,9 +41,11 @@ function adjustNodesPath(configs: RouteList, parentPath = "") {
       adjustNodesPath(children, node.path)
     }
   }, configs)
+
+  return configs
 }
 
-function updateLabelToLink(configs: RouteList) {
+function updateLabelToLink(configs: RouteList): RouteList {
   forEach((config: unknown) => {
     const node = config as RouteItem
     node.label = <Link to={node.path}>{node.label}</Link>
@@ -50,4 +55,6 @@ function updateLabelToLink(configs: RouteList) {
       updateLabelToLink(children)
     }
   }, configs)
+
+  return configs
 }

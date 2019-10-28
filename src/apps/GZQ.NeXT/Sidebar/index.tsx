@@ -1,24 +1,64 @@
 import React, { FC, memo, useEffect } from "react"
+import * as r from "ramda"
+import * as ra from "ramda-adjunct"
 
 import dataSource from "~/utils/dataSource"
 import useOrgId from "@/GZQ.NeXT/hooks/useOrgId"
+import useUserId from "@/GZQ.NeXT/hooks/useUserId"
 
-import { AppInfoPayload } from "./types"
+import Sidebar2 from "@/AppTemplate/Sidebar"
+import router from "@/AppTemplate/Sidebar/routers"
+import { AppInfoPayload, AppItem, RouteItem, RouteList } from "./types"
+
+const ROUTERS = "ROUTERS"
 
 const Sidebar: FC<{}> = () => {
   const orgId = useOrgId() as string
 
   useEffect(() => {
     ;(async () => {
-      const appItems = await dataSource.get<AppInfoPayload>(
-        "/app/web/icon/lightApps",
-        {
+      try {
+        const appItems = await dataSource<AppInfoPayload>({
+          url: "/app/web/icon/lightApps",
           params: {
             orgId: orgId,
             needOptNum: false,
           },
-        },
-      )
+        })
+        const pick = r.pick([
+          "appId",
+          "ciaAppid",
+          "orderBy",
+          "name",
+          "status",
+          "platformExtension",
+          "hasAuthority",
+          "endTimestamp",
+        ])
+        const normalizeItem = ra.renameKeys({
+          appId: "id",
+          ciaAppid: "ciaId",
+          orderBy: "order",
+          platformExtension: "extension",
+          hasAuthority: "authorized",
+          endTimestamp: "endAt",
+        })
+
+        const items = appItems[0].appIconList
+          .map(pick)
+          .map(normalizeItem) as RouteList
+
+        const routerConfig = ra.renameKeys({
+          name: "label",
+          id: "path",
+        })(items)
+
+        console.log(router(routerConfig))
+
+        console.log(items)
+      } catch (e) {
+        console.log("catch", e)
+      }
     })()
   }, [orgId])
 
@@ -26,3 +66,9 @@ const Sidebar: FC<{}> = () => {
 }
 
 export default memo(Sidebar)
+
+const icons = {
+  home: "home",
+  circle: "social-media",
+  chat: "chat",
+}
