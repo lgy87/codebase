@@ -1640,10 +1640,10 @@
   resolved "https://registry.npm.taobao.org/@types/jest-diff/download/@types/jest-diff-20.0.1.tgz#35cc15b9c4f30a18ef21852e255fdb02f6d59b89"
   integrity sha1-NcwVucTzChjvIYUuJV/bAvbVm4k=
 
-"@types/jest@^24.0.20":
-  version "24.0.20"
-  resolved "https://registry-npm.rd.chanjet.com/@types/jest/download/@types/jest-24.0.20.tgz#729d5fe8684e7fb06368d3bd557ac6d91289d861"
-  integrity sha1-cp1f6GhOf7BjaNO9VXrG2RKJ2GE=
+"@types/jest@^24.0.21":
+  version "24.0.21"
+  resolved "https://registry.npm.taobao.org/@types/jest/download/@types/jest-24.0.21.tgz?cache=0&sync_timestamp=1572465931490&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fjest%2Fdownload%2F%40types%2Fjest-24.0.21.tgz#2c0a25440e025bb265f4a17d8b79b11b231426bf"
+  integrity sha1-LAolRA4CW7Jl9KF9i3mxGyMUJr8=
   dependencies:
     "@types/jest-diff" "*"
 
@@ -1681,10 +1681,10 @@
   resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-12.7.11.tgz?cache=0&sync_timestamp=1570139996775&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fnode%2Fdownload%2F%40types%2Fnode-12.7.11.tgz#be879b52031cfb5d295b047f5462d8ef1a716446"
   integrity sha1-voebUgMc+10pWwR/VGLY7xpxZEY=
 
-"@types/node@12.11.7":
-  version "12.11.7"
-  resolved "https://registry-npm.rd.chanjet.com/@types/node/download/@types/node-12.11.7.tgz#57682a9771a3f7b09c2497f28129a0462966524a"
-  integrity sha1-V2gql3Gj97CcJJfygSmgRilmUko=
+"@types/node@12.12.3":
+  version "12.12.3"
+  resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-12.12.3.tgz?cache=0&sync_timestamp=1572463127992&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fnode%2Fdownload%2F%40types%2Fnode-12.12.3.tgz#ebfe83507ac506bc3486314a8aa395be66af8d23"
+  integrity sha1-6/6DUHrFBrw0hjFKiqOVvmavjSM=
 
 "@types/prop-types@*":
   version "15.7.3"
@@ -1733,10 +1733,10 @@
     hoist-non-react-statics "^3.3.0"
     redux "^4.0.0"
 
-"@types/react-router-dom@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.npm.taobao.org/@types/react-router-dom/download/@types/react-router-dom-5.1.0.tgz#8baa84a7fa8c8e7797fb3650ca51f93038cb4caf"
-  integrity sha1-i6qEp/qMjneX+zZQylH5MDjLTK8=
+"@types/react-router-dom@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.npm.taobao.org/@types/react-router-dom/download/@types/react-router-dom-5.1.1.tgz#77a2dae8ba6ff1df51d27517f7646127a51a1a3e"
+  integrity sha1-d6La6Lpv8d9R0nUX92RhJ6UaGj4=
   dependencies:
     "@types/history" "*"
     "@types/react" "*"
@@ -10059,10 +10059,10 @@ react-transition-group@^2.9.0:
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.4"
 
-react-use@^12.9.1:
-  version "12.9.1"
-  resolved "https://registry-npm.rd.chanjet.com/react-use/download/react-use-12.9.1.tgz#56b745a72ecec816d13f6c44c0d8c3038ec4525d"
-  integrity sha1-VrdFpy7OyBbRP2xEwNjDA47EUl0=
+react-use@^12.13.0:
+  version "12.13.0"
+  resolved "https://registry.npm.taobao.org/react-use/download/react-use-12.13.0.tgz#dfefd8145552841f1c2213c2e79966b505a264ba"
+  integrity sha1-3+/YFFVShB8cIhPC55lmtQWiZLo=
   dependencies:
     "@types/react-wait" "^0.3.0"
     copy-to-clipboard "^3.1.0"
@@ -11908,10 +11908,10 @@ typedarray@^0.0.6:
   resolved "https://registry.npm.taobao.org/typedarray/download/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typesafe-actions@^4.4.2:
-  version "4.4.2"
-  resolved "https://registry.npm.taobao.org/typesafe-actions/download/typesafe-actions-4.4.2.tgz#8f817c479d12130b5ebb442032968b2a18929e1a"
-  integrity sha1-j4F8R50SEwteu0QgMpaLKhiSnho=
+typesafe-actions@^5.1.0-1:
+  version "5.1.0-1"
+  resolved "https://registry.npm.taobao.org/typesafe-actions/download/typesafe-actions-5.1.0-1.tgz#aae51bf16a032cc887978ffb76f4fc8ee223a40b"
+  integrity sha1-quUb8WoDLMiHl4/7dvT8juIjpAs=
 
 typescript@3.6.4:
   version "3.6.4"
@@ -12098,10 +12098,10 @@ utila@^0.4.0, utila@~0.4:
   resolved "https://registry.npm.taobao.org/utila/download/utila-0.4.0.tgz#8a16a05d445657a3aea5eecc5b12a4fa5379772c"
   integrity sha1-ihagXURWV6Oupe7MWxKk+lN5dyw=
 
-utility-types@^3.8.0:
-  version "3.8.0"
-  resolved "https://registry.npm.taobao.org/utility-types/download/utility-types-3.8.0.tgz#eaae1c2520c206b5623a4f07af38e3aa31dc2f06"
-  integrity sha1-6q4cJSDCBrViOk8HrzjjqjHcLwY=
+utility-types@^3.9.0:
+  version "3.9.0"
+  resolved "https://registry.npm.taobao.org/utility-types/download/utility-types-3.9.0.tgz#c322d974e7062ec967077384c3b75077a955d83b"
+  integrity sha1-wyLZdOcGLslnB3OEw7dQd6lV2Ds=
 
 utils-merge@1.0.1:
   version "1.0.1"
