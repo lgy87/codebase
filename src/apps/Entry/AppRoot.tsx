@@ -60,7 +60,7 @@ function useUpdateConfigState(name: Name, theme: Theme, sidebar: Sidebar) {
       dispatch(setTheme(theme))
       dispatch(setSidebar(sidebar))
     })()
-  }, [name, theme, sidebar])
+  }, [name, theme, dispatch, sidebar])
 }
 
 function useUpdateGZQInfo() {
@@ -75,5 +75,5 @@ function useUpdateGZQInfo() {
     dispatch(setUser(user))
     dispatch(setOrgs(orgs))
     dispatch(setOrg(org))
-  }, [user, orgs, org])
+  }, [user, orgs, dispatch, org])
 }

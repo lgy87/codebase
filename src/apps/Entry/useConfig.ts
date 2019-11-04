@@ -31,7 +31,7 @@ export default function useConfig() {
         setInitialized(true)
       }
     })()
-  }, [])
+  }, [setInitialized])
 
   return {
     name,
