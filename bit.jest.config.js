@@ -8,8 +8,7 @@ module.exports = {
   verbose: true,
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
   transform: {
-    "^.+\\.tsx?$": "ts-jest",
-    "^.+\\.jsx?$": "babel-jest",
+    "^.+\\.(j|t)sx?$": "ts-jest",
   },
   testRegex: "(test|spec)\\.(j|t)sx?$",
   setupFiles: ["<rootDir>/tests/shim.ts", "<rootDir>/tests/setupTests.ts"],

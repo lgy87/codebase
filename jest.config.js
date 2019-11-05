@@ -5,8 +5,11 @@
  */
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const config = require("./bit.jest.config")
-
-module.exports = {
+const a = {
   ...config,
   roots: ["<rootDir>/src"],
 }
+
+console.log(a)
+
+module.exports = a
