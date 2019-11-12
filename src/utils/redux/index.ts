@@ -1,5 +1,5 @@
 export {
-  createStandardAction as createAction,
+  createAction,
   createAsyncAction,
   createReducer,
   createCustomAction,

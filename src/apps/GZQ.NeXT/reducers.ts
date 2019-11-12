@@ -1,7 +1,6 @@
 import { combineReducers } from "redux"
 
 import { createReducer } from "~/utils/redux"
-import * as configs from "~/configs"
 
 import { Orgs, User, Org } from "./Auth/types"
 import {

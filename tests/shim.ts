@@ -12,7 +12,7 @@ declare global {
       window: Window
       document: Document
       navigator: Navigator
-      requestAnimationFrame: (callback: any) => Timeout
+      requestAnimationFrame: (callback: () => void) => Timeout
       cancelAnimationFrame: (id: Timeout) => void
       Image: HTMLImageElement
     }

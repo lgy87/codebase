@@ -1,16 +1,30 @@
 {
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "modules": true
+    },
     "jsx": true,
     "useJSXTextNode": true
   },
+  "env": {
+    "browser": true,
+    "node": true,
+    "commonjs": true,
+    "jest": true,
+    "es6": true
+  },
+
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
+    "plugin:prettier/recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
     "prettier",
-    "prettier/@typescript-eslint",
-    "plugin:prettier/recommended"
+    "prettier/@typescript-eslint"
   ],
   "plugins": [
     "@typescript-eslint",
@@ -20,13 +34,6 @@
     "jsx-a11y",
     "import"
   ],
-  "env": {
-    "browser": true,
-    "node": true,
-    "commonjs": true,
-    "jest": true,
-    "es6": true
-  },
   "rules": {
     "prettier/prettier": "error",
     "no-console": "off",
@@ -38,8 +45,8 @@
     "no-case-declarations": "off",
     "no-unused-vars": "error",
     "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-unused-vars": "off",
-    "@typescript-eslint/no-use-before-define": "off"
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/no-var-require": "off"
   },
   "settings": {
     "react": {

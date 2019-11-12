@@ -29,7 +29,7 @@ const App: FC<AppTemplateProps> = ({ children }) => {
       <Box>
         <Header>{header}</Header>
       </Box>
-      <Box className="height100">
+      <Box className="height100 _999">
         <SplitPane isSidebarLeft>{main}</SplitPane>
       </Box>
     </Flex>

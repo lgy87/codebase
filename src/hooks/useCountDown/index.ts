@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react"
+import React, { useState, useCallback } from "react"
 import * as r from "ramda"
 
 import useInterval from "~/hooks/useInterval"
@@ -13,7 +13,7 @@ type Result = {
   pause: SetFn
 }
 
-export default function(from: number, to: number): Result {
+export default function useCountDown(from: number, to: number): Result {
   const [current, setCurrent] = useState(from)
   const [delay, setDelay] = useState<number | null>(INTERVAL)
 
