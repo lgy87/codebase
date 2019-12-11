@@ -7,6 +7,7 @@ import * as r from "ramda"
 import { JSDOM } from "jsdom"
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace NodeJS {
     interface Global {
       window: Window

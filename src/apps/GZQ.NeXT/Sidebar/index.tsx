@@ -3,8 +3,8 @@ import * as r from "ramda"
 import * as ra from "ramda-adjunct"
 
 import dataSource from "~/utils/dataSource"
-import useOrgId from "@/GZQ.NeXT/hooks/useOrgId"
-import useUserId from "@/GZQ.NeXT/hooks/useUserId"
+import useOrgId from "~/apps/GZQ.NeXT/hooks/useOrgID"
+import useUserId from "~/apps/GZQ.NeXT/hooks/useUserID"
 
 import Sidebar2 from "@/AppTemplate/Sidebar"
 import router from "@/AppTemplate/Sidebar/routers"

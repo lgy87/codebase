@@ -1,10 +1,10 @@
-import React, { FC, memo, CSSProperties } from "react"
+import React, { FC, memo, CSSProperties, ReactNode } from "react"
 
 import Image from "~/components/Image"
 
 type Props = {
   src: string
-  text: string
+  text: ReactNode
   className?: string
   style?: CSSProperties
   imageStyle?: CSSProperties

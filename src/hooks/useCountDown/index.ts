@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react"
+import { useState, useCallback } from "react"
 import * as r from "ramda"
 
 import useInterval from "~/hooks/useInterval"

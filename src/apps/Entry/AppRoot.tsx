@@ -5,6 +5,7 @@ import { Spinner, Intent } from "@blueprintjs/core"
 import * as ra from "ramda-adjunct"
 import * as r from "ramda"
 
+import useStoredUserOrgs from "~/apps/GZQ.NeXT/hooks/useStoredUserOrgs"
 import { Name, Theme, Sidebar } from "~/types"
 import { name as GZQAppName } from "@/GZQ.NeXT/config"
 import { isLoggedIntoGZQ } from "@/GZQ.NeXT/Auth/logic"
@@ -15,7 +16,6 @@ import {
   setOrgs,
   setUser,
 } from "@/GZQ.NeXT/actions"
-import useUserOrgs from "@/GZQ.NeXT/hooks/useUserOrgs"
 
 import EmptyState from "../EmptyState"
 import useConfig from "./useConfig"
@@ -60,15 +60,19 @@ function useUpdateConfigState(name: Name, theme: Theme, sidebar: Sidebar) {
 
 function useUpdateGZQInfo() {
   const dispatch = useDispatch()
-  const { user, orgs, org } = useUserOrgs()
+  const { user, orgs, org } = useStoredUserOrgs()
 
   useEffect(() => {
     isLoggedIntoGZQ() ? dispatch(setLoggedIn()) : dispatch(setLoggedOut())
 
     if (r.anyPass([ra.isFalsy, r.isEmpty])(user)) return
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    const indexByID = r.indexBy(r.prop<Orgs>("id"))
+
     dispatch(setUser(user))
-    dispatch(setOrgs(orgs))
+    dispatch(setOrgs(indexByID(orgs)))
     dispatch(setOrg(org))
-  }, [user, orgs, dispatch, org])
+  }, [user, orgs, org, dispatch])
 }

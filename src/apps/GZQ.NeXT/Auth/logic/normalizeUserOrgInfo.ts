@@ -1,18 +1,24 @@
 import * as r from "ramda"
 
-import { OrgListInfo, UserOrgs, OrgListPayload } from "../types"
+import {
+  OrgListInfo,
+  User,
+  OrgItem,
+  OrgListPayload,
+  StoredUserOrgs,
+} from "../types"
 
-const normalizeOrgItem = r.applySpec({
-  initialized: r.prop("isInitial"),
+const normalizeOrgItem = r.applySpec<OrgItem>({
   id: r.prop("orgId"),
-  logo: r.prop("orgLogo"),
   name: r.prop("orgFullName"),
+  initialized: r.prop("isInitial"),
+  logo: r.prop("orgLogo"),
 })
 
-const normalizeOrgList = r.map(normalizeOrgItem as any)
+const normalizeOrgList = r.map(normalizeOrgItem)
 
 export default function normalizeUserOrgInfo(userOrg: OrgListPayload) {
-  const user = r.applySpec({
+  const user = r.applySpec<User>({
     id: r.prop("userId"),
     name: r.prop("name"),
     username: r.prop("username"),
@@ -20,16 +26,18 @@ export default function normalizeUserOrgInfo(userOrg: OrgListPayload) {
     email: r.prop("email"),
   })(userOrg)
 
-  const orgInfo = r.propOr({}, "orgListInfo", userOrg) as OrgListInfo
+  const orgInfo: OrgListInfo = r.propOr({}, "orgListInfo", userOrg)
 
   const org = {
     current: r.prop("orgId", userOrg),
     defaults: String(orgInfo.appDefaultOrgId),
   }
 
+  const orgs = normalizeOrgList(orgInfo.orgList)
+
   return {
     user,
     org,
-    orgs: normalizeOrgList(orgInfo.orgList),
-  } as UserOrgs
+    orgs,
+  } as StoredUserOrgs
 }

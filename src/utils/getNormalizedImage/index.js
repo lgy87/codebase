@@ -34,7 +34,7 @@ const getNormalizedImage = r.curry((size, src) => {
 
   const { extension, size: sizeInSrc } = r.propOr({}, "groups", matched)
   if (r.equals(size, sizeInSrc)) {
-    return src
+      return src
   }
 
   const re = new RegExp(sizeInSrc + "\\." + extension + "$")

@@ -1,12 +1,12 @@
 import React from "react"
-import { Popover, Position, PopoverInteractionKind } from "@blueprintjs/core"
+import { Popover, Position } from "@blueprintjs/core"
 
 import { ThemedButton } from "~/components/Button"
-import useOrgId from "@/GZQ.NeXT/hooks/useOrgId"
+import useOrgID from "@/GZQ.NeXT/hooks/useOrgID"
 import createMenu, { divider } from "./createMenu"
 
 export default function AppStore() {
-  const orgId = useOrgId()
+  const orgID = useOrgID()
   const menu = [
     {
       text: "申请试用商务版",
@@ -19,7 +19,7 @@ export default function AppStore() {
     {
       text: "管理 / 增购 / 续购",
       icon: "fast-forward",
-      href: `https://workbench.chanjet.com/myapp/list?orgId=${orgId}`,
+      href: `https://workbench.chanjet.com/myapp/list?orgId=${orgID}`,
       target: "_blank",
     },
   ]
@@ -28,7 +28,6 @@ export default function AppStore() {
     <Popover
       content={createMenu(menu)}
       minimal={true}
-      interactionKind={PopoverInteractionKind.HOVER}
       hoverCloseDelay={100}
       hoverOpenDelay={0}
       position={Position.BOTTOM_RIGHT}
@@ -38,7 +37,7 @@ export default function AppStore() {
   )
 }
 
-function AppStoreTrigger(props: any) {
+function AppStoreTrigger() {
   return (
     <ThemedButton
       intent="primary"

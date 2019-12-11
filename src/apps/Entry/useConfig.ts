@@ -24,7 +24,7 @@ export default function useConfig() {
           storage.getItem<Sidebar>(SIDEBAR),
         ])
 
-        setName(name)
+        name && setName(name)
         setTheme(theme)
         setSidebar(sidebar)
       } finally {

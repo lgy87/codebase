@@ -54,10 +54,11 @@ export type OrgListPayload = {
   orgId: string
 }
 export type OrgListResponse = Response<OrgListPayload>
-
-export type User = {
+export type IDName = {
   id: string
   name: string
+}
+export type User = IDName & {
   username: string
   avatar: string
   email: string
@@ -66,15 +67,21 @@ export type Org = {
   current: string
   defaults: string
 }
-export type OrgItem = {
-  id: string
+export type OrgItem = IDName & {
   initialized: string
   logo: string
-  name: string
 }
-export type Orgs = Array<OrgItem>
+export type OrgList = Array<OrgItem>
+export type Orgs = {
+  [key in OrgItem["id"]]: OrgItem
+}
 export type UserOrgs = {
   user: User
   org: Org
   orgs: Orgs
+}
+export type StoredUserOrgs = {
+  user: User
+  org: Org
+  orgs: OrgList
 }

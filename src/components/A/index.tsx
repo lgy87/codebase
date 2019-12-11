@@ -1,28 +1,28 @@
-import React from "react"
+import React, { FC, AnchorHTMLAttributes, memo } from "react"
 import * as ra from "ramda-adjunct"
 
 export const TARGET_BLANK = "_blank"
 export const SECURITY_REL = "noopener noreferrer"
 
-type Rel = string | undefined
-type Target = string | undefined
+type MaybeEmptyString = string | undefined
+type Rel = MaybeEmptyString
+type Target = MaybeEmptyString
 
-const A: React.FC<React.AnchorHTMLAttributes<{}>> = ({ rel, ...restProps }) => {
-  const newRel = makeSecurityRel(rel, restProps.target)
-
-  return <a {...restProps} rel={newRel} />
+const A: FC<AnchorHTMLAttributes<{}>> = ({ rel, ...restProps }) => {
+  const props = {
+    ...restProps,
+    rel: makeSecurityRel(rel, restProps.target),
+  }
+  return <a {...props} />
 }
 
-export default A
+export default memo(A)
 
 function makeSecurityRel(rel: Rel, target: Target) {
-  const newRel = ra.isFalsy(rel) ? "" : `${rel} `
+  if (isBlank(target)) return rel
+  if (isBlank(rel)) return SECURITY_REL
 
-  if (isNotBlank(target)) return newRel
-
-  return `${newRel}${SECURITY_REL}`
+  return `${rel} ${SECURITY_REL}`
 }
 
-function isNotBlank(target: Target) {
-  return target !== TARGET_BLANK
-}
+const isBlank = ra.isFalsy

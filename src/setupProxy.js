@@ -3,6 +3,7 @@
  * 2019/10/05
  * lgy87@foxmail.com
  */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const proxy = require("http-proxy-middleware")
 
 const TARGET = "https://gzq.chanjet.com"

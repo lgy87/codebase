@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { app, BrowserWindow, globalShortcut } = require("electron")
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -5,7 +6,6 @@ if (require("electron-squirrel-startup")) app.quit()
 
 const r = require("ramda")
 const ra = require("ramda-adjunct")
-const path = require("path")
 const isDev = require("electron-is-dev")
 
 const paths = require("../../webpack/paths")
@@ -61,7 +61,7 @@ function register() {
 
 function loadWebPage() {
   const url = isDev
-    ? "http://localhost:3000/"
+    ? "http://localhost:5555/"
     : `file://${paths.DIST}/index.html`
 
   mainWindow.loadURL(url)

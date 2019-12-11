@@ -25,7 +25,7 @@ function Menu() {
       presistName(newName)
       history.replace(`/${app.path}`)
     },
-    [dispatch, name, presistName],
+    [dispatch, history, name, presistName],
   )
 
   return (

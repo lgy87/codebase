@@ -13,18 +13,17 @@ import {
 } from "~/utils/userOrgInfoStorage"
 import toaster from "~/utils/toaster"
 import useFieldState from "~/hooks/useFieldState"
-import useUserOrgs from "@/GZQ.NeXT/hooks/useUserOrgs"
-import { User } from "@/GZQ.NeXT/Auth/types"
+import useStoredUserOrgs from "~/apps/GZQ.NeXT/hooks/useStoredUserOrgs"
 
 import { setOrg, setOrgs, setUser } from "../actions"
-import auth from "./logic"
-import { captchaUrl } from "./logic/config"
-import { AuthInfo, UserOrgs } from "./types"
-import View from "./view"
-
 import { name } from "../config"
 
-export default function Container(props: any) {
+import auth from "./logic"
+import { captchaUrl } from "./logic/config"
+import { AuthInfo, UserOrgs, User, OrgItem, StoredUserOrgs } from "./types"
+import View from "./view"
+
+export default function Container() {
   const [account, setAccount] = useFieldState("ligyj@chanjet.com")
   const [password, setPassword] = useFieldState("temp123")
   const [captchaCode, setCaptchaCode, resetCaptchaCode] = useFieldState("")
@@ -32,7 +31,7 @@ export default function Container(props: any) {
   const [uuid, setUUID] = useState()
   const [random, setRandom_] = useState(Math.random)
 
-  const { user, orgs, org } = useUserOrgs()
+  const { user, org } = useStoredUserOrgs()
 
   const history = useHistory()
   const dispatch = useDispatch()
@@ -70,25 +69,29 @@ export default function Container(props: any) {
     })
   }
 
-  function goHome(userOrg: UserOrgs) {
-    history.push(`/${name}/${userOrg.org.current}`, { replace: true })
+  function goHome(storedUserOrg: StoredUserOrgs) {
+    history.push(`/${name}/${storedUserOrg.org.current}`, { replace: true })
   }
 
-  function clearUUID(userOrg: UserOrgs) {
+  function clearUUID(storedUserOrg: StoredUserOrgs) {
     setUUID(undefined)
-    return userOrg
+    return storedUserOrg
   }
 
-  function updateStore(userOrgs: UserOrgs) {
-    const { user, orgs, org } = userOrgs
+  function updateStore(storedUserOrg: StoredUserOrgs) {
+    const { user, orgs, org } = storedUserOrg
 
-    if (r.isEmpty(user)) return userOrgs
+    if (r.isEmpty(user)) return storedUserOrg
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    const indexByID = r.indexBy(r.prop<Orgs>("id"))
 
     dispatch(setUser(user))
-    dispatch(setOrgs(orgs))
+    dispatch(setOrgs(indexByID(orgs)))
     dispatch(setOrg(org))
 
-    return userOrgs
+    return storedUserOrg
   }
 
   function handleLogin(authInfo: AuthInfo) {
@@ -113,8 +116,8 @@ export default function Container(props: any) {
       .catch(toaster.warning)
   }
 
-  async function presistUserOrgs(userOrgs: UserOrgs) {
-    const { user: newUser, orgs: newOrgs, org: newOrg } = userOrgs
+  async function presistUserOrgs(storedUserOrg: StoredUserOrgs) {
+    const { user: newUser, orgs: newOrgs, org: newOrg } = storedUserOrg
 
     // 如果是本次登录和上次登录为同一user，使用缓存中的信息
     // 这样可以保存上次用户退出时所在的企业
@@ -126,18 +129,14 @@ export default function Container(props: any) {
       orgStorage.setItem(availableOrg),
     ])
 
-    return { user: newUser, orgs: newOrgs, org: availableOrg } as UserOrgs
+    return { user: newUser, orgs: newOrgs, org: availableOrg } as StoredUserOrgs
   }
 }
 
-function welcome(userOrg: UserOrgs) {
-  const name = r.pathOr("", ["user", "name"], userOrg)
+function welcome(storedUserOrg: StoredUserOrgs) {
+  const name = r.pathOr("", ["user", "name"], storedUserOrg)
   toaster.success({ message: `登录成功，欢迎 ${name}!` })
-  return userOrg
+  return storedUserOrg
 }
 
-function isSameUser(oldUser: User, newUser: User) {
-  const oldUserId = r.prop("id", oldUser)
-  const newUserId = r.prop("id", newUser)
-  return oldUserId === newUserId
-}
+const isSameUser = r.eqProps("id")

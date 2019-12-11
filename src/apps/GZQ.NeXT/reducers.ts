@@ -1,3 +1,4 @@
+import * as r from "ramda"
 import { combineReducers } from "redux"
 
 import { createReducer } from "~/utils/redux"
@@ -15,12 +16,12 @@ import {
 } from "./actions"
 
 const logged = createReducer(true)
-  .handleAction(setLoggedIn, () => true)
-  .handleAction(setLoggedOut, () => false)
+  .handleAction(setLoggedIn, r.T)
+  .handleAction(setLoggedOut, r.F)
 
-const orgs = createReducer([] as Orgs)
+const orgs = createReducer({} as Orgs)
   .handleAction(setOrgs, (_, { payload }) => payload)
-  .handleAction(clearOrgs, () => [])
+  .handleAction(clearOrgs, () => ({}))
 
 const user = createReducer({} as User)
   .handleAction(setUser, (_, { payload }) => payload)

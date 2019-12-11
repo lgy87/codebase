@@ -1,14 +1,14 @@
 import * as r from "ramda"
+import * as ra from "ramda-adjunct"
+import cookie from "js-cookie"
 
 import dataSource, { jsonp } from "~/utils/dataSource"
-import { loginStateUrl, gzqLoginUrl, gzqLogoutUrl } from "./config"
 import {
   userStorage,
   orgsStorage,
   orgStorage,
 } from "~/utils/userOrgInfoStorage"
 
-import normalizeUserOrgInfo from "./normalizeUserOrgInfo"
 import {
   AuthInfo,
   LoginResponse,
@@ -16,11 +16,15 @@ import {
   LoginStateResponse,
   OrgListPayload,
   LoginRequestOption,
+  StoredUserOrgs,
 } from "../types"
+
+import { loginStateUrl, gzqLoginUrl, gzqLogoutUrl } from "./config"
+import normalizeUserOrgInfo from "./normalizeUserOrgInfo"
 
 export default { login, logout }
 
-async function login(authInfo: AuthInfo) {
+async function login(authInfo: AuthInfo): Promise<StoredUserOrgs> {
   // Has logged into GZQ
   if (isLoggedIntoGZQ()) {
     const [user, orgs, org] = await Promise.all([
@@ -67,6 +71,7 @@ function getUUID(resp: LoginResponse): string {
 async function getCiaLoginState(): Promise<LoginStateResponse> {
   return jsonp.get(loginStateUrl, {
     params: {
+      // eslint-disable-next-line @typescript-eslint/camelcase
       client_id: "da6e3f87-bb6f-4cdc-ac78-64b0ed4237c7",
       jsonp: true,
       r: Math.random(),
@@ -82,13 +87,7 @@ async function getOrgList(): Promise<OrgListPayload> {
 }
 
 export const isLoggedIntoGZQ = () => {
-  const GZQ_COOKIE = "gongzuoquan.info="
-
-  return r.pipe(
-    r.split(";"),
-    r.map(r.trim),
-    r.any(r.startsWith(GZQ_COOKIE)),
-  )(document.cookie)
+  return ra.isTruthy(cookie.get("gongzuoquan.info"))
 }
 
 async function logout() {
